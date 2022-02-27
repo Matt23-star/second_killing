@@ -7,6 +7,7 @@ import com.example.secondkill.utils.MyBatisPlusUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 
 @SpringBootTest
 class SecondkillingApplicationTests {
@@ -16,6 +17,9 @@ class SecondkillingApplicationTests {
 
     @Autowired
     SponsorMapper sponsorMapper;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
 
     @Test
@@ -35,5 +39,11 @@ class SecondkillingApplicationTests {
 ////        sponsorWrapper.select();
 //
 //        System.out.println(sponsorMapper.selectList(null));
+    }
+
+    @Test
+    void redisTest(){
+        redisTemplate.opsForValue().set("a", "a");
+        System.out.println(redisTemplate.opsForValue().get("a"));
     }
 }
