@@ -1,6 +1,6 @@
 package com.example.secondkill.mapper;
 
-import com.example.secondkill.entity.Kill_information;
+import com.example.secondkill.entity.pojo.Kill_information;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

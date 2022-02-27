@@ -12,11 +12,14 @@ spring:
     # 数据库用户名&密码：
     username: root
     password: 333333
-    # 应用服务 WEB 访问端口
-
   redis:
+    host: 127.0.0.1
     port: 6379
-    host: localhost
+
+#应用服务 WEB 访问端口
+server:
+  port: 8888
+
 
 # Mybatis-plus配置
 mybatis-plus:
@@ -27,6 +30,5 @@ mybatis-plus:
   configuration:
     # 自动驼峰命名
     map-underscore-to-camel-case: true
-server:
-  port: 8888
+
 

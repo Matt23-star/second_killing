@@ -1,6 +1,6 @@
 package com.example.secondkill.service.impl;
 
-import com.example.secondkill.entity.Rule_information;
+import com.example.secondkill.entity.pojo.Rule_information;
 import com.example.secondkill.mapper.Rule_informationMapper;
 import com.example.secondkill.service.IRule_informationService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

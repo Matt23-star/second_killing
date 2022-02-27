@@ -1,6 +1,6 @@
 package com.example.secondkill.service;
 
-import com.example.secondkill.entity.Sponsor;
+import com.example.secondkill.entity.pojo.Sponsor;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

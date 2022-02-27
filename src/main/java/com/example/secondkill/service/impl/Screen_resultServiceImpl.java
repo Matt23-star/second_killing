@@ -1,6 +1,6 @@
 package com.example.secondkill.service.impl;
 
-import com.example.secondkill.entity.Screen_result;
+import com.example.secondkill.entity.pojo.Screen_result;
 import com.example.secondkill.mapper.Screen_resultMapper;
 import com.example.secondkill.service.IScreen_resultService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

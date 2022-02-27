@@ -1,6 +1,6 @@
 package com.example.secondkill.service.impl;
 
-import com.example.secondkill.entity.User_kill_state;
+import com.example.secondkill.entity.pojo.User_kill_state;
 import com.example.secondkill.mapper.User_kill_stateMapper;
 import com.example.secondkill.service.IUser_kill_stateService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

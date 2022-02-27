@@ -1,6 +1,6 @@
 package com.example.secondkill.service;
 
-import com.example.secondkill.entity.User_kill_state;
+import com.example.secondkill.entity.pojo.User_kill_state;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

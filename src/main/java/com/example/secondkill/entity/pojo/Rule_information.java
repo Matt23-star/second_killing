@@ -1,4 +1,4 @@
-package com.example.secondkill.entity;
+package com.example.secondkill.entity.pojo;
 
 import lombok.Data;
 
@@ -14,13 +14,9 @@ import java.io.Serializable;
  */
 
 @Data
-public class Sponsor implements Serializable {
+public class Rule_information implements Serializable {
 
 
     private String id;
-
-    private String name;
-
-    private String description;
 
 }

@@ -1,4 +1,4 @@
-package com.example.secondkill.entity;
+package com.example.secondkill.entity.pojo;
 
 import lombok.Data;
 
