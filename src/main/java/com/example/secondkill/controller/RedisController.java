@@ -23,6 +23,8 @@ public class RedisController {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
+    private Object lockA = new Object();
+    private Object lockB = new Object();
     private long successNum = 0;
     private long failNum = 0;
     private long totalNum = 0;
@@ -32,6 +34,8 @@ public class RedisController {
     public Result<String> secondKill(@PathVariable("uId") String uId,
                                      @PathVariable("killId") String killId,
                                      @PathVariable("buyAmount")Integer buyAmount) {
+
+
         return ResultUtils.success(ResultMsg.SUCCESS,"success");
     }
 
@@ -48,14 +52,14 @@ public class RedisController {
     public String kill(@PathVariable("userId") String userId,
                        @PathVariable("killId") String killId,
                        @PathVariable("num") Integer num) {
-        synchronized (this) {
+        synchronized (lockA) {
             totalNum++;
             if (totalNum % 5000 == 0) System.out.println(totalNum);
-            // 键为 “用户id 秒杀id” 代表用户是否参加过该次秒杀
+            // 键为 “用户id.秒杀id” 代表用户是否参加过该次秒杀
             String s = redisTemplate.opsForValue().get(userId + "." + killId);
             if (s != null) return "fail";
         }
-        synchronized (this) {
+        synchronized (lockB) {
             String leftNumStr = redisTemplate.opsForValue().get(killId + ".leftNum");
             if (leftNumStr == null) return "fail";
             int leftNum = Integer.parseInt(leftNumStr);
