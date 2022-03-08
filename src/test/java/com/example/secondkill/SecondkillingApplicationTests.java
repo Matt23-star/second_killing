@@ -43,7 +43,13 @@ class SecondkillingApplicationTests {
 
     @Test
     void redisTest(){
-        redisTemplate.opsForValue().set("a", "a");
-        System.out.println(redisTemplate.opsForValue().get("a"));
+//        redisTemplate.opsForValue().set("a", "a");
+//        if()
+//        if(redisTemplate.opsForValue().decrement()<0)
+//        {
+//            redisTemplate.opsForValue().increment();
+//        }
+//
+//        System.out.println(redisTemplate.opsForValue().get("a"));
     }
 }
