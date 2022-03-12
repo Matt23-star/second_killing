@@ -21,6 +21,12 @@ class SecondkillingApplicationTests {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Test
+    void test(){
+
+        System.out.println(Integer.parseInt("11111111111111111111"));
+    }
+
 
     @Test
     void contextLoads() {

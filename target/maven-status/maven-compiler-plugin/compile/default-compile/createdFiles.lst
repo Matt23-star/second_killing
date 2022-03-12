@@ -1,3 +1,2 @@
 com\example\secondkill\service\IRedisService.class
-com\example\secondkill\service\impl\RedisSecond.class
 com\example\secondkill\controller\RedisController.class
