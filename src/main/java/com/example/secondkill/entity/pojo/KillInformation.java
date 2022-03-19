@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @ApiModel(value = "com.example.secondkill.entity.pojo.Kill_information",description = "秒杀活动信息")
-public class Kill_information implements Serializable {
+public class KillInformation implements Serializable {
 
 
     private String id;

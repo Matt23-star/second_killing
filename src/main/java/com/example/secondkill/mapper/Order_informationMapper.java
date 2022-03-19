@@ -1,6 +1,6 @@
 package com.example.secondkill.mapper;
 
-import com.example.secondkill.entity.pojo.Order_information;
+import com.example.secondkill.entity.pojo.OrderInformation;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +14,6 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public interface Order_informationMapper extends BaseMapper<Order_information> {
+public interface Order_informationMapper extends BaseMapper<OrderInformation> {
 
 }

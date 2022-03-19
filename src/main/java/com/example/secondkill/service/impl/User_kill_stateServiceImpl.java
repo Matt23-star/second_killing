@@ -1,6 +1,6 @@
 package com.example.secondkill.service.impl;
 
-import com.example.secondkill.entity.pojo.User_kill_state;
+import com.example.secondkill.entity.pojo.UserKillState;
 import com.example.secondkill.mapper.User_kill_stateMapper;
 import com.example.secondkill.service.IUser_kill_stateService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2022-02-25
  */
 @Service
-public class User_kill_stateServiceImpl extends ServiceImpl<User_kill_stateMapper, User_kill_state> implements IUser_kill_stateService {
+public class User_kill_stateServiceImpl extends ServiceImpl<User_kill_stateMapper, UserKillState> implements IUser_kill_stateService {
 
 }

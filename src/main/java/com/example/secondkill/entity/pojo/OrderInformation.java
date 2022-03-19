@@ -3,6 +3,7 @@ package com.example.secondkill.entity.pojo;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -13,18 +14,22 @@ import java.time.LocalDateTime;
  * @author Matt
  * @since 2022-02-25
  */
-
 @Data
-public class Screen_result implements Serializable {
+public class OrderInformation implements Serializable {
 
 
     private String id;
 
+    private String killInformationId;
+
     private String userId;
 
-    private String killInfoId;
+    private String state;
 
-    private String result;
+    private Integer buyNumber;
 
     private LocalDateTime time;
+
+    private BigDecimal totalPrice;
+
 }

@@ -1,6 +1,6 @@
 package com.example.secondkill.service;
 
-import com.example.secondkill.entity.pojo.Kill_information;
+import com.example.secondkill.entity.pojo.KillInformation;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author Matt
  * @since 2022-02-25
  */
-public interface IKill_informationService extends IService<Kill_information> {
+public interface IKill_informationService extends IService<KillInformation> {
 
 
 }

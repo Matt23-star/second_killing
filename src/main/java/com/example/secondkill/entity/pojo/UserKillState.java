@@ -3,6 +3,7 @@ package com.example.secondkill.entity.pojo;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -14,9 +15,16 @@ import java.io.Serializable;
  */
 
 @Data
-public class Rule_information implements Serializable {
+public class UserKillState implements Serializable {
 
 
     private String id;
 
+    private String userId;
+
+    private String killActivityId;
+
+    private String state;
+
+    private Date time;
 }

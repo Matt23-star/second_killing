@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  */
 
 @Data
-public class Product_information implements Serializable {
+public class ProductInformation implements Serializable {
 
 
     private String id;
