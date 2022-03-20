@@ -1,23 +1,11 @@
 package com.example.secondkill.controller;
 
 import com.example.secondkill.entity.Result;
-import com.example.secondkill.entity.enums.ResultMsg;
-import com.example.secondkill.entity.pojo.User;
-import com.example.secondkill.entity.pojo.UserKillState;
 import com.example.secondkill.service.impl.RedisService;
-import com.example.secondkill.utils.ResultUtils;
-import com.google.common.hash.BloomFilter;
-import com.google.common.hash.Funnels;
 import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.charset.Charset;
-import java.rmi.server.UID;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.UUID;
 
 /**
  * @author: Matt
