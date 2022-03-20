@@ -24,11 +24,11 @@ class SecondkillingApplicationTests {
     SponsorMapper sponsorMapper;
 
     @Autowired
-    private RedisTemplate<Object,Object> redisTemplate;
+    private RedisTemplate<Object, Object> redisTemplate;
 
     @Test
-    void test(){
-        System.out.println(threeSum(new int[]{-1,0,1,2,-1,-4}));
+    void test() {
+        System.out.println(threeSum(new int[]{-1, 0, 1, 2, -1, -4}));
     }
 
     public List<List<Integer>> threeSum(int[] nums) {
@@ -36,16 +36,16 @@ class SecondkillingApplicationTests {
         List<List<Integer>> resultLists = new ArrayList<List<Integer>>();
         List<Integer> resultList;
         int length = nums.length;
-        for(int i= 0;i<length-2;i++){
-            int left = i+1;
-            int right = length-1;
+        for (int i = 0; i < length - 2; i++) {
+            int left = i + 1;
+            int right = length - 1;
             int target = -nums[i];
-            while(left<right){
-                if(nums[left]+nums[right]<target){
+            while (left < right) {
+                if (nums[left] + nums[right] < target) {
                     left++;
-                }else if(nums[left]+nums[right]>target){
+                } else if (nums[left] + nums[right] > target) {
                     right--;
-                }else{
+                } else {
                     resultList = new ArrayList<>();
                     resultList.add(nums[i]);
                     resultList.add(nums[left]);
@@ -63,7 +63,11 @@ class SecondkillingApplicationTests {
     }
 
     @Test
-    void testMybatis(){
+    void test1(){
+        System.out.println(new Date());
+    }
+    @Test
+    void testMybatis() {
         Sponsor sponsor = new Sponsor();
         sponsor.setId("115");
         sponsor.setName("name");
@@ -77,18 +81,18 @@ class SecondkillingApplicationTests {
     }
 
     @Test
-    void redisTest(){
+    void redisTest() {
         UserKillState userKillState = new UserKillState();
         userKillState.setState("正常");
-        userKillState.setId( UUID.randomUUID().toString().replaceAll("-", "").toUpperCase().substring(0, 32));
+        userKillState.setId(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase().substring(0, 32));
         userKillState.setUserId("2");
         userKillState.setKillActivityId("3");
         userKillState.setTime(new Date(System.currentTimeMillis()));
-        redisTemplate.opsForList().leftPush("1"+".userStateList",userKillState);
-        UserKillState userKillState2 = (UserKillState) redisTemplate.opsForList().leftPop("1"+".userStateList");
+        redisTemplate.opsForList().leftPush("1" + ".userStateList", userKillState);
+        UserKillState userKillState2 = (UserKillState) redisTemplate.opsForList().leftPop("1" + ".userStateList");
         System.out.println(userKillState2.toString());
         //        redisTemplate.opsForValue().set("a", "a");
-//        if()
+//        if(1)
 //        if(redisTemplate.opsForValue().decrement()<0)
 //        {
 //            redisTemplate.opsForValue().increment();
@@ -97,3 +101,4 @@ class SecondkillingApplicationTests {
 //        System.out.println(redisTemplate.opsForValue().get("a"));
     }
 }
+
