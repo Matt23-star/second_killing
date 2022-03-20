@@ -21,6 +21,7 @@ import java.util.UUID;
  * @description:
  */
 @Service
+@SuppressWarnings("all")
 public class RedisService implements IRedisService {
 
     @Autowired
@@ -32,13 +33,16 @@ public class RedisService implements IRedisService {
     private static final Object[] locks = new Object[availableProcessorsNum * 2];
 
     static {
-        for (int i = 0; i < bloomFilters.length - 1; i += 2) {
-            bloomFilters[i + 1] = BloomFilter.create(Funnels.stringFunnel(Charset.defaultCharset()), 1000000, 0.00001);
-            bloomFilters[i] = BloomFilter.create(Funnels.stringFunnel(Charset.defaultCharset()), 1000000, 0.001);
-        }
-
         for (int i = 0; i < locks.length; i++) {
             locks[i] = new Object();
+        }
+        initBloomFilters();
+    }
+
+    public static void initBloomFilters() {
+        for (int i = 0; i < bloomFilters.length - 1; i += 2) {
+            bloomFilters[i + 1] = BloomFilter.create(Funnels.stringFunnel(Charset.defaultCharset()), 100000, 0.0001);
+            bloomFilters[i] = BloomFilter.create(Funnels.stringFunnel(Charset.defaultCharset()), 100000, 0.001);
         }
     }
 
@@ -75,6 +79,7 @@ public class RedisService implements IRedisService {
         redisTemplate.opsForList().leftPush(killId + ".userStateList", userKillState);
         return ResultUtils.success(new ResultMessage(55555, "购买成功", new Date(), System.currentTimeMillis()), "null");
     }
+}
 
 //    在 controller中编写，现废除
 //
@@ -242,4 +247,3 @@ public class RedisService implements IRedisService {
 //            return "success";
 //        }
 //    }
-}
