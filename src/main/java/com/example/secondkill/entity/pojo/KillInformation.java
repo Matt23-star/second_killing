@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
@@ -21,9 +22,9 @@ public class KillInformation implements Serializable {
 
     private String id;
 
-    private LocalDateTime beginTime;
+    private Date beginTime;
 
-    private LocalDateTime endTime;
+    private Date endTime;
 
     private String productId;
 

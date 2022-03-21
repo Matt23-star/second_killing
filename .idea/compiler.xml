@@ -8,10 +8,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="sk320" />
+        <module name="secondkilling" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="second-killing" target="1.8" />
+      <module name="secondkilling" target="1.8" />
       <module name="sk320" target="1.8" />
     </bytecodeTargetLevel>
   </component>

@@ -20,12 +20,12 @@ public class RedisController {
     @Autowired
     private RedisService redisService;
 
-    @GetMapping("/users/{uId}/kills/{killId}/products/{buyAmount}")
+    @GetMapping("/users/{uId}/kills/{killId}/products/{buyAmount}/{randomUrl}")
     @ApiImplicitParam(name = "")
     public Result secondKill(@PathVariable("uId") String uId,
                              @PathVariable("killId") String killId,
-                             @PathVariable("buyAmount") Integer buyAmount) {
-
+                             @PathVariable("buyAmount") Integer buyAmount,
+                             @PathVariable("randomUrl") String randomUrl) {
         return redisService.secondKill(uId, killId, buyAmount);
     }
 

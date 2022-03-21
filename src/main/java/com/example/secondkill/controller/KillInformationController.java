@@ -18,5 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags="秒杀活动接口")
 public class KillInformationController {
 
+
+
 }
 

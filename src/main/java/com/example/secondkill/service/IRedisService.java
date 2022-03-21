@@ -9,5 +9,5 @@ import com.example.secondkill.entity.Result;
  */
 public interface IRedisService {
 
-    Result secondKill(String userId,String killId, Integer bugAmount);
+    Result secondKill(String userId,String killId, Integer bugAmount, String randomUrl);
 }

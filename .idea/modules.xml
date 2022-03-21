@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/secondkilling.iml" filepath="$PROJECT_DIR$/secondkilling.iml" />
       <module fileurl="file://$PROJECT_DIR$/sk320.iml" filepath="$PROJECT_DIR$/sk320.iml" />
     </modules>
   </component>
