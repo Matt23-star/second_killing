@@ -32,19 +32,16 @@ mybatis-plus:
     # 自动驼峰命名
     map-underscore-to-camel-case: true
 
-
-
-
-# 消费者的组名
-apache:
-  rocketmq:
-    consumer:
-    PushConsumer: orderConsumer
-    # 生产者的组名
-    producer:
-      producerGroup: Producer
-    # NameServer地址
-    namesrvAddr: 127.0.0.1:9876
+## 消费者的组名
+#apache:
+#  rocketmq:
+#    consumer:
+#    PushConsumer: orderConsumer
+#    # 生产者的组名
+#    producer:
+#      producerGroup: Producer
+#    # NameServer地址
+#    namesrvAddr: 127.0.0.1:9876
 
 
 

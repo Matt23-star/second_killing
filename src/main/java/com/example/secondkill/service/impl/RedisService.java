@@ -2,8 +2,10 @@ package com.example.secondkill.service.impl;
 
 import com.example.secondkill.entity.Result;
 import com.example.secondkill.entity.ResultMessage;
+import com.example.secondkill.entity.enums.ResultMsg;
 import com.example.secondkill.entity.pojo.UserKillState;
 import com.example.secondkill.service.IRedisService;
+import com.example.secondkill.utils.DateUtils;
 import com.example.secondkill.utils.ResultUtils;
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
@@ -47,14 +49,17 @@ public class RedisService implements IRedisService {
     }
 
     @Override
-    public Result secondKill(String userId, String killId, Integer buyAmount) {
+    public Result secondKill(String userId, String killId, Integer buyAmount, String randomUrl) {
+        if(!authUrl(killId,randomUrl)){
+            return ResultUtils.error(ResultMsg.ERROR);
+        }
         int index = userId.hashCode() % (availableProcessorsNum * 2);
         synchronized (locks[index]) {
             BloomFilter<String> outBloomFilter = bloomFilters[index * 2];
             BloomFilter<String> inBloomFilter = bloomFilters[index * 2 + 1];
             if (outBloomFilter.mightContain(userId)) {
                 if (inBloomFilter.mightContain(userId))
-                    return ResultUtils.success(new ResultMessage(55555, "重复请求", new Date(), System.currentTimeMillis()), "null");
+                    return ResultUtils.success(new ResultMessage(55555, "重复请求", DateUtils.dateConvert(new Date()), System.currentTimeMillis()), "null");
                 else inBloomFilter.put(userId);
             } else {
                 outBloomFilter.put(userId);
@@ -78,6 +83,11 @@ public class RedisService implements IRedisService {
         userKillState.setTime(new Date(System.currentTimeMillis()));
         redisTemplate.opsForList().leftPush(killId + ".userStateList", userKillState);
         return ResultUtils.success(new ResultMessage(55555, "购买成功", new Date(), System.currentTimeMillis()), "null");
+    }
+
+    private Boolean authUrl(String killId, String randomUrl){
+        String url = (String) redisTemplate.opsForValue().get(killId + "url");
+        return url==null?false:url.equals(randomUrl);
     }
 }
 

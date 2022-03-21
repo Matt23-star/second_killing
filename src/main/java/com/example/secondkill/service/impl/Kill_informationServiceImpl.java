@@ -1,21 +1,14 @@
 package com.example.secondkill.service.impl;
 
-import com.example.secondkill.entity.Result;
-import com.example.secondkill.entity.ResultMessage;
 import com.example.secondkill.entity.pojo.KillInformation;
 import com.example.secondkill.mapper.Kill_informationMapper;
 import com.example.secondkill.service.IKill_informationService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.secondkill.utils.ResultUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 
 /**
  * <p>
- * 服务实现类
+ *  服务实现类
  * </p>
  *
  * @author Matt
@@ -38,4 +31,62 @@ public class Kill_informationServiceImpl extends ServiceImpl<Kill_informationMap
         return ResultUtils.success(new ResultMessage(200,randomUrl,new Date(),System.currentTimeMillis()));
     }
 
+}
+    public Kill_informationServiceImpl(){
+        new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(4000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Set<String> killIds = stringStringRedisTemplate.opsForSet().members("secondKills");
+                for (String killId : killIds) {
+                    Boolean noEnd = stringStringRedisTemplate.hasKey(killId + "noEndKillFlag");
+                    if (!noEnd) {
+                        stringStringRedisTemplate.opsForSet().remove("secondKills",killId);
+                        stringStringRedisTemplate.delete(killId + "url");
+                        continue;
+                    }
+                    Boolean noCreateUrl = stringStringRedisTemplate.hasKey(killId+"noCreateUrlFlag");
+                    if(noCreateUrl){
+                        continue;
+                    }
+                    String s = UUID.randomUUID().toString();
+                    stringStringRedisTemplate.opsForValue()
+                            .set(killId + "url", s);
+                }
+            }
+        }).run();
+    }
+
+    @Autowired
+    private Kill_informationMapper killInformationMapper;
+
+    @Autowired
+    private RedisTemplate<Object,Object> redisTemplate;
+
+    @Autowired
+    private RedisTemplate<String, String> stringStringRedisTemplate;
+
+    private static final Long createUrl = 5000L;
+
+    @Override
+    public Result addSecondKill(KillInformation killInformation) {
+        if(killInformation==null){
+            return ResultUtils.error(ResultMsg.ERROR);
+        }
+        killInformation.setId(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase().substring(0, 32));
+        if(killInformationMapper.insert(killInformation)<=0)
+            return ResultUtils.error(ResultMsg.ERROR);
+        Date begin = killInformation.getBeginTime();
+        Date end = killInformation.getEndTime();
+        Long createUrlTimes = begin.getTime()-System.currentTimeMillis()-createUrl;
+        Long endTimes = end.getTime() - begin.getTime();
+        redisTemplate.opsForSet().add("sencondKills",killInformation.getId());
+        redisTemplate.opsForValue().set(killInformation.getId()+"noCreateUrlFlag",killInformation.getId(),createUrlTimes, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set(killInformation.getId()+"noKillFlag",killInformation.getId(),createUrlTimes+createUrl,TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set(killInformation.getId()+"noEndKillFlag",killInformation.getId(),endTimes,TimeUnit.MILLISECONDS);
+        return ResultUtils.success(ResultMsg.SUCCESS);
+    }
 }

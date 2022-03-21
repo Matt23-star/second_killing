@@ -1,11 +1,7 @@
 package com.example.secondkill.controller;
 
 
-import com.example.secondkill.entity.Result;
-import com.example.secondkill.service.impl.Kill_informationServiceImpl;
 import io.swagger.annotations.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,6 +25,8 @@ public class KillInformationController {
     public Result<String> getRandomUrl(@PathVariable String userId, @PathVariable String killInformationId){
         return kill_informationService.getRandomUrl(userId,killInformationId);
     }
+
+
 
 }
 

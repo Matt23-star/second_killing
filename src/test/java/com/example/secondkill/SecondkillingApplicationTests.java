@@ -82,15 +82,16 @@ class SecondkillingApplicationTests {
 
     @Test
     void redisTest() {
-        UserKillState userKillState = new UserKillState();
-        userKillState.setState("正常");
-        userKillState.setId(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase().substring(0, 32));
-        userKillState.setUserId("2");
-        userKillState.setKillActivityId("3");
-        userKillState.setTime(new Date(System.currentTimeMillis()));
-        redisTemplate.opsForList().leftPush("1" + ".userStateList", userKillState);
-        UserKillState userKillState2 = (UserKillState) redisTemplate.opsForList().leftPop("1" + ".userStateList");
-        System.out.println(userKillState2.toString());
+        redisTemplate.opsForValue().get("111");
+//        UserKillState userKillState = new UserKillState();
+//        userKillState.setState("正常");
+//        userKillState.setId(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase().substring(0, 32));
+//        userKillState.setUserId("2");
+//        userKillState.setKillActivityId("3");
+//        userKillState.setTime(new Date(System.currentTimeMillis()));
+//        redisTemplate.opsForList().leftPush("1" + ".userStateList", userKillState);
+//        UserKillState userKillState2 = (UserKillState) redisTemplate.opsForList().leftPop("1" + ".userStateList");
+//        System.out.println(userKillState2.toString());
         //        redisTemplate.opsForValue().set("a", "a");
 //        if(1)
 //        if(redisTemplate.opsForValue().decrement()<0)

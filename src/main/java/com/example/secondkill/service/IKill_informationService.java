@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IKill_informationService extends IService<KillInformation> {
 
+
 }

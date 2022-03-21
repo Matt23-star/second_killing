@@ -8,8 +8,8 @@ package com.example.secondkill.entity.enums;
 
 public enum ResultMsg {
 
-    SUCCESS(200,"成功");
-
+    SUCCESS(200,"成功"),
+    ERROR(500,"失败");
 
 
     private Integer code;
