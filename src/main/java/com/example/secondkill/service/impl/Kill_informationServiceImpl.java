@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.Date;
 import java.util.Set;
+import java.util.Stack;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -34,6 +35,7 @@ public class Kill_informationServiceImpl extends ServiceImpl<Kill_informationMap
 
     @PostConstruct
     public void init() {
+        // 此线程进行秒杀的基本管理
         new Thread(() -> {
             while (true) {
                 try {
@@ -43,22 +45,35 @@ public class Kill_informationServiceImpl extends ServiceImpl<Kill_informationMap
                 }
                 Set<String> killIds = stringStringRedisTemplate.opsForSet().members("secondKills");
                 for (String killId : killIds) {
-                    Boolean noEnd = stringStringRedisTemplate.hasKey(killId + "noEndKillFlag");
-                    if (!noEnd) {
+                    if (!stringStringRedisTemplate.hasKey(killId + "noEndKillFlag")) {
+                        // 此时线程发现该秒杀活动已经结束
                         stringStringRedisTemplate.opsForSet().remove("secondKills", killId);
                         stringStringRedisTemplate.delete(killId + "url");
+                        stringStringRedisTemplate.delete(killId + "inited");
+                        stringStringRedisTemplate.delete(killId + ".buyMaximum");
+                        KillInformation killInformation = killInformationMapper.selectById(killId);
+                        killInformation
+                                .setSurplusNum(Integer.parseInt(
+                                        stringStringRedisTemplate.opsForValue().get(killId + ".leftNum")));
+                        stringStringRedisTemplate.delete(killId + ".leftNum");
+                        killInformation.setState("已结束");
+                        killInformationMapper.updateById(killInformation);
                         continue;
                     }
-                    Boolean noCreateUrl = stringStringRedisTemplate.hasKey(killId + "noCreateUrlFlag");
-                    if (noCreateUrl) {
-                        continue;
+                    // 进行布隆过滤器的初始化、随机秒杀连接的初始化以及缓存的初始化写入
+                    if (!stringStringRedisTemplate.hasKey(killId + "noCreateUrlFlag")) {
+                        if (!stringStringRedisTemplate.hasKey(killId + "inited")) {
+                            String s = UUID.randomUUID().toString();
+                            stringStringRedisTemplate.opsForValue().set(killId + "url", s);
+                            RedisService.initBloomFilters();
+                            KillInformation killInformation = killInformationMapper.selectById(killId);
+                            stringStringRedisTemplate.opsForValue()
+                                    .set(killId + ".leftNum", killInformation.getProductNum() + "");
+                            stringStringRedisTemplate.opsForValue()
+                                    .set(killId + ".buyMaximum", killInformation.getBuyMaximum() + "");
+                            stringStringRedisTemplate.opsForValue().set(killId + "inited", " ");
+                        }
                     }
-                    String s = UUID.randomUUID().toString();
-                    stringStringRedisTemplate.opsForValue()
-                            .set(killId + "url", s);
-                    RedisService.initBloomFilters();
-                    //stringStringRedisTemplate.opsForValue().set(killId + ".leftNum",);
-
                 }
             }
         }).start();
