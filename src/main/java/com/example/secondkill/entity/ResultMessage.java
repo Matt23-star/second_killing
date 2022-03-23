@@ -15,10 +15,10 @@ public class ResultMessage {
 
     private Integer code;
     private String message;
-    private Date time;
+    private String time;
     private Long timestamp;
 
-    public ResultMessage(Integer code, String message, Date time, Long timestamp) {
+    public ResultMessage(Integer code, String message, String time, Long timestamp) {
         this.code = code;
         this.message = message;
         this.time = time;

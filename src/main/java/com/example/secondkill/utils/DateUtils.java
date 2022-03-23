@@ -21,6 +21,11 @@ public class DateUtils {
         }
     }
 
+    public static String dateFormat(Date date){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        return dateFormat.format(date);
+    }
+
     public static int getDaysInterval(Date startDate, Date endDate){
 
         startDate = dateConvert(startDate);

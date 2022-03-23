@@ -29,7 +29,7 @@ public class KillInformationController {
     @Autowired
     private RedisService redisService;
 
-    @RequestMapping("/getRandomUrl/{userId}/{killInformationId}")
+    @GetMapping("/getRandomUrl/{userId}/{killInformationId}")
     public Result<String> getRandomUrl(@PathVariable String userId, @PathVariable String killInformationId){
         return kill_informationService.getRandomUrl(userId,killInformationId);
     }
@@ -52,9 +52,9 @@ public class KillInformationController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "productId", value = "产品id", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "sponsorId", value = "发起人id", dataType = "String", paramType = "query", required = true),
-            @ApiImplicitParam(name = "productNum", value = "产品数量", dataType = "Integer", paramType = "query", required = true),
+            @ApiImplicitParam(name = "productNum", value = "产品数量", paramType = "query", required = true),
             @ApiImplicitParam(name = "description", value = "秒杀活动描述", dataType = "String", paramType = "query", required = true),
-            @ApiImplicitParam(name = "buyMaximum", value = "购买最大量", dataType = "Integer", paramType = "query", required = true),
+            @ApiImplicitParam(name = "buyMaximum", value = "购买最大量", paramType = "query", required = true),
             @ApiImplicitParam(name = "beginTime", value = "开始时间", dataType = "Date", paramType = "query", required = true),
             @ApiImplicitParam(name = "endTime", value = "结束时间", dataType = "Date", paramType = "query", required = true)
     })

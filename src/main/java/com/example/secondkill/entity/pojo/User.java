@@ -18,7 +18,6 @@ import java.util.UUID;
 @Data
 public class User implements Serializable {
 
-
     private String id = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase().substring(0, 32);
 
     private String name;

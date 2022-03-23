@@ -16,7 +16,6 @@ import java.io.Serializable;
 @Data
 public class Sponsor implements Serializable {
 
-
     private String id;
 
     private String name;

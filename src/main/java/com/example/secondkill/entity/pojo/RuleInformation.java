@@ -17,7 +17,6 @@ import java.util.UUID;
 @Data
 public class RuleInformation implements Serializable {
 
-
     private String id = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase().substring(0, 32);
 
 }

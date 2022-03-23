@@ -4,6 +4,8 @@ import com.example.secondkill.entity.Result;
 import com.example.secondkill.entity.ResultMessage;
 import com.example.secondkill.entity.enums.ResultMsg;
 
+import java.util.Date;
+
 /**
  * @author: Matt
  * @date: 2021/7/9/14:50
@@ -16,14 +18,18 @@ public class ResultUtils {
         Result<T> result = new Result<>();
         result.setCode(resultMessage.getCode());
         result.setMessage(resultMessage.getMessage());
+        result.setTime(resultMessage.getTime());
+        result.setTimestamp(resultMessage.getTimestamp());
         result.setData(data);
         return result;
     }
 
-    public static <T> Result success(ResultMessage resultMsg, T data){
+    public static <T> Result success(ResultMessage resultMessage, T data){
         Result<T> result = new Result<>();
-        result.setCode(resultMsg.getCode());
-        result.setMessage(resultMsg.getMessage());
+        result.setCode(resultMessage.getCode());
+        result.setMessage(resultMessage.getMessage());
+        result.setTime(resultMessage.getTime());
+        result.setTimestamp(resultMessage.getTimestamp());
         result.setData(data);
         return result;
     }
@@ -33,6 +39,8 @@ public class ResultUtils {
         Result<T> result = new Result();
         result.setCode(0);
         result.setMessage("成功！！！");
+        result.setTime(DateUtils.dateFormat(new Date()));
+        result.setTimestamp(System.currentTimeMillis());
         result.setData(data);
         return result;
     }
@@ -45,6 +53,8 @@ public class ResultUtils {
         Result<T> result = new Result();
         result.setCode(resultMessage.getCode());
         result.setMessage(resultMessage.getMessage());
+        result.setTime(resultMessage.getTime());
+        result.setTimestamp(resultMessage.getTimestamp());
         return result;
     }
 
@@ -52,6 +62,8 @@ public class ResultUtils {
         Result<T> result = new Result();
         result.setCode(errorMsg.getCode());
         result.setMessage(errorMsg.getMessage());
+        result.setTime(errorMsg.getTime());
+        result.setTimestamp(errorMsg.getTimestamp());
         return result;
     }
 }
