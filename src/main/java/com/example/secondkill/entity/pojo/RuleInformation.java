@@ -3,10 +3,11 @@ package com.example.secondkill.entity.pojo;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author Matt
@@ -17,6 +18,6 @@ import java.io.Serializable;
 public class RuleInformation implements Serializable {
 
 
-    private String id;
+    private String id = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase().substring(0, 32);
 
 }

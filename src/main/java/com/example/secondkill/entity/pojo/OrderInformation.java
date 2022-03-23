@@ -5,6 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * <p>
@@ -18,7 +19,7 @@ import java.time.LocalDateTime;
 public class OrderInformation implements Serializable {
 
 
-    private String id;
+    private String id = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase().substring(0, 32);
 
     private String killInformationId;
 

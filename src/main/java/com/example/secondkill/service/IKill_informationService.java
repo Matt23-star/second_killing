@@ -1,6 +1,7 @@
 package com.example.secondkill.service;
 
 import com.example.secondkill.entity.Result;
+import com.example.secondkill.entity.dto.KillImformationDTO;
 import com.example.secondkill.entity.pojo.KillInformation;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,7 +14,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-02-25
  */
 public interface IKill_informationService extends IService<KillInformation> {
-    public Result addSecondKill(KillInformation killInformation);
+    Result addSecondKill(KillImformationDTO killImformationDTO);
 
-    public Result<String> getRandomUrl(String userId, String killInformationId);
+    Result<String> getRandomUrl(String userId, String killInformationId);
 }

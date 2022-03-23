@@ -6,6 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * <p>
@@ -19,12 +20,7 @@ import java.util.Date;
 @ApiModel(value = "com.example.secondkill.entity.pojo.Kill_information",description = "秒杀活动信息")
 public class KillInformation implements Serializable {
 
-
-    private String id;
-
-    private Date beginTime;
-
-    private Date endTime;
+    private String id = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase().substring(0, 32);
 
     private String productId;
 
@@ -41,5 +37,9 @@ public class KillInformation implements Serializable {
     private String description;
 
     private Integer buyMaximum;
+
+    private Date beginTime;
+
+    private Date endTime;
 
 }

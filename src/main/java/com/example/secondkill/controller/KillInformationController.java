@@ -2,14 +2,13 @@ package com.example.secondkill.controller;
 
 
 import com.example.secondkill.entity.Result;
+import com.example.secondkill.entity.dto.KillImformationDTO;
+import com.example.secondkill.entity.pojo.KillInformation;
 import com.example.secondkill.service.impl.Kill_informationServiceImpl;
 import com.example.secondkill.service.impl.RedisService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -36,7 +35,12 @@ public class KillInformationController {
     }
 
     @GetMapping("/users/{uId}/kills/{killId}/products/{buyAmount}/{randomUrl}")
-    @ApiImplicitParam(name = "")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "uId", value = "用户id", dataType = "String", paramType = "query", required = true),
+            @ApiImplicitParam(name = "killId", value = "秒杀活动id", dataType = "String", paramType = "query", required = true),
+            @ApiImplicitParam(name = "buyAmount", value = "购买产品数量", dataType = "Integer", paramType = "query", required = true),
+            @ApiImplicitParam(name = "randomUrl", value = "动态url", dataType = "String", paramType = "query", required = true)
+    })
     public Result secondKill(@PathVariable("uId") String uId,
                              @PathVariable("killId") String killId,
                              @PathVariable("buyAmount") Integer buyAmount,
@@ -44,7 +48,19 @@ public class KillInformationController {
         return redisService.secondKill(uId, killId, buyAmount,randomUrl);
     }
 
-
+    @PostMapping("/insert")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "productId", value = "产品id", dataType = "String", paramType = "query", required = true),
+            @ApiImplicitParam(name = "sponsorId", value = "发起人id", dataType = "String", paramType = "query", required = true),
+            @ApiImplicitParam(name = "productNum", value = "产品数量", dataType = "Integer", paramType = "query", required = true),
+            @ApiImplicitParam(name = "description", value = "秒杀活动描述", dataType = "String", paramType = "query", required = true),
+            @ApiImplicitParam(name = "buyMaximum", value = "购买最大量", dataType = "Integer", paramType = "query", required = true),
+            @ApiImplicitParam(name = "beginTime", value = "开始时间", dataType = "Date", paramType = "query", required = true),
+            @ApiImplicitParam(name = "endTime", value = "结束时间", dataType = "Date", paramType = "query", required = true)
+    })
+    public Result addSecondKill(@RequestBody KillImformationDTO killImformationDTO){
+        return kill_informationService.addSecondKill(killImformationDTO);
+    }
 
 }
 

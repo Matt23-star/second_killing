@@ -4,10 +4,11 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author Matt
@@ -18,7 +19,7 @@ import java.util.Date;
 public class UserKillState implements Serializable {
 
 
-    private String id;
+    private String id = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase().substring(0, 32);
 
     private String userId;
 

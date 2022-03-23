@@ -68,7 +68,6 @@ public class RedisService implements IRedisService {
         }
         Long decrement = 0L;
         UserKillState userKillState = new UserKillState();
-        userKillState.setId(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase().substring(0, 32));
         userKillState.setUserId(userId);
         userKillState.setKillActivityId(killId);
         decrement = redisTemplate.opsForValue().decrement(killId + ".leftNum", buyAmount);

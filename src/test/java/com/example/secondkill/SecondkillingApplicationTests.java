@@ -3,6 +3,8 @@ package com.example.secondkill;
 import com.example.secondkill.entity.pojo.Sponsor;
 import com.example.secondkill.entity.pojo.UserKillState;
 import com.example.secondkill.mapper.SponsorMapper;
+import com.example.secondkill.mapper.User_kill_stateMapper;
+import com.example.secondkill.service.IKill_informationService;
 import com.example.secondkill.service.ISponsorService;
 import com.example.secondkill.utils.MyBatisPlusUtils;
 import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
@@ -22,6 +24,9 @@ class SecondkillingApplicationTests {
 
     @Autowired
     SponsorMapper sponsorMapper;
+
+    @Autowired
+    User_kill_stateMapper stateMapper;
 
     @Autowired
     private RedisTemplate<Object, Object> redisTemplate;
@@ -68,11 +73,18 @@ class SecondkillingApplicationTests {
     }
     @Test
     void testMybatis() {
-        Sponsor sponsor = new Sponsor();
-        sponsor.setId("115");
-        sponsor.setName("name");
-        sponsor.setDescription("description");
-        sponsorService.addSponsor(sponsor);
+        UserKillState userKillState = new UserKillState();
+        userKillState.setState("state");
+        userKillState.setUserId("1111");
+        userKillState.setKillActivityId("111");
+        userKillState.setTime(new Date());
+        System.out.println(userKillState.toString());
+        stateMapper.insert(userKillState);
+//        Sponsor sponsor = new Sponsor();
+//        sponsor.setId("115");
+//        sponsor.setName("name");
+//        sponsor.setDescription("description");
+//        sponsorService.addSponsor(sponsor);
 //        List<Sponsor> sponsors = new ArrayList<>();
 ////        QueryWrapper<Sponsor> sponsorWrapper = new QueryWrapper<>();
 ////        sponsorWrapper.select();
