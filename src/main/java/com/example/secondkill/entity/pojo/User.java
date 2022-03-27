@@ -1,5 +1,6 @@
 package com.example.secondkill.entity.pojo;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,7 +17,7 @@ import java.util.UUID;
  */
 
 @Data
-public class User implements Serializable {
+public class User  implements Serializable {
 
     private String id = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase().substring(0, 32);
 
@@ -37,5 +38,7 @@ public class User implements Serializable {
     private String address;
 
     private BigDecimal deposit;
+
+    private String password;
 
 }
