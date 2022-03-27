@@ -1,7 +1,14 @@
 package com.example.secondkill.service;
 
+import com.example.secondkill.entity.Result;
+import com.example.secondkill.entity.dto.KillImformationDTO;
+import com.example.secondkill.entity.pojo.KillInformation;
 import com.example.secondkill.entity.pojo.Sponsor;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +20,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ISponsorService extends IService<Sponsor> {
     void addSponsor(Sponsor sponsor);
+    List<KillInformation> universalKillSelect(String colName, String value, String orderBy, String aOrD, int from, int limit);
+    KillInformation getKillDetails(String killId);
+    Result updateKillInfo (KillInformation killInformation);
+    Result deleteKillInfo(String killId);
 }
