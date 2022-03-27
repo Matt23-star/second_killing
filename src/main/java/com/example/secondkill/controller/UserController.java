@@ -2,6 +2,11 @@ package com.example.secondkill.controller;
 
 
 import com.example.secondkill.entity.Result;
+import com.example.secondkill.entity.pojo.User;
+import com.example.secondkill.service.impl.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import com.example.secondkill.entity.Result;
 import com.example.secondkill.entity.dto.UserDTO;
 import com.example.secondkill.service.IUserService;
 import io.swagger.annotations.Api;
@@ -12,7 +17,11 @@ import org.springframework.data.redis.connection.ReactiveSubscription;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * <p>
@@ -46,6 +55,12 @@ public class UserController {
     })
     public Result register(UserDTO userDTO){
         return userService.register(userDTO);
+    }
+    @PostMapping("/login")
+    public Result<User> userLogin(@RequestParam("userName")String userName,
+                                  @RequestParam("password")String password,
+                                  HttpServletResponse response) {
+        return userService.userLogin(userName,password,response);
     }
 }
 
