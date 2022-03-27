@@ -53,25 +53,22 @@ public class RequestLimitAspect {
         String ip = request.getRemoteAddr();
         String reqUrl= requestLimit.reqUrl();
         String key = "req_IpLimit".concat(ip).concat(reqUrl);
+        String keyFlag="req_IpLimitFlag".concat(ip).concat(reqUrl);
         long limitTime = requestLimit.limitedTime();
 
         logger.info("ip:"+ip);
-        //从redis获取值
-        ValueOperations valueOperations = redisTemplate.opsForValue();
-        Integer requestCount = (Integer)redisTemplate.opsForValue().get(key);
-        logger.info(String.valueOf(requestCount));
-        //首次访问初始化请求次数及过期时间，后续访问时判断请求次数是否超过限制次数
-        if (requestCount == null) {
-            valueOperations.set(key, 1, limitTime, TimeUnit.MILLISECONDS);
-        } else if(requestCount >= requestLimit.limitCount()) {
-            //超过限制次数返回对应枚举值
-            //视为恶意请求
-            return null;
-        } else {
-            //更新访问次数及过期时间
-            Integer count = requestCount + 1;
-            valueOperations.set(key, count, limitTime,TimeUnit.MILLISECONDS);
+        if(redisTemplate.opsForValue().get(keyFlag)!=null){
+            throw new Exception("恶意请求");
         }
+        //从redis获取值
+        Long count = redisTemplate.opsForValue().increment(key);
+        //请求次数超过限制
+        if(count>requestLimit.limitCount()){
+            redisTemplate.opsForValue().set(keyFlag,keyFlag+"exists",limitTime,TimeUnit.MILLISECONDS);
+            redisTemplate.opsForValue().set(key,requestLimit.limitCount()/2,limitTime,TimeUnit.MILLISECONDS);
+            throw new Exception("恶意请求");
+        }
+        logger.info(String.valueOf(count));
         return joinPoint.proceed(args);
     }
 }

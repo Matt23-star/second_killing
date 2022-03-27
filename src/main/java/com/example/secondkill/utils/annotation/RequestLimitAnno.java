@@ -29,9 +29,9 @@ public @interface RequestLimitAnno {
     //long minSafeTime() default 5000;
 
     /**
-     * 某个ip限制访问时间，单位为毫秒，默认值五分钟
+     * 某个ip限制访问时间，单位为毫秒，默认值一分钟
      */
-    long limitedTime() default 50000;
+    long limitedTime() default 60000;
 
     /**
      * 请求url
