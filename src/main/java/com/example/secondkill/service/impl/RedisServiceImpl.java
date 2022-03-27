@@ -24,7 +24,7 @@ import java.util.UUID;
  */
 @Service
 @SuppressWarnings("all")
-public class RedisService implements IRedisService {
+public class RedisServiceImpl implements IRedisService {
 
     @Autowired
     RedisTemplate redisTemplate;
@@ -59,7 +59,7 @@ public class RedisService implements IRedisService {
             BloomFilter<String> inBloomFilter = bloomFilters[index * 2 + 1];
             if (outBloomFilter.mightContain(userId)) {
                 if (inBloomFilter.mightContain(userId))
-                    return ResultUtils.success(new ResultMessage(55555, "重复请求", DateUtils.dateFormat(new Date()), System.currentTimeMillis()));
+                    return ResultUtils.error(new ResultMessage(55555, "重复请求"));
                 else inBloomFilter.put(userId);
             } else {
                 outBloomFilter.put(userId);
@@ -67,7 +67,7 @@ public class RedisService implements IRedisService {
             }
         }
         if(buyAmount>Integer.parseInt((String)redisTemplate.opsForValue().get(killId + ".buyMaximum"))){
-            return ResultUtils.error(new ResultMessage(500, "超过最大购买量", DateUtils.dateFormat(new Date()), System.currentTimeMillis()));
+            return ResultUtils.error(new ResultMessage(500, "超过最大购买量"));
         }
         Long decrement = 0L;
         UserKillState userKillState = new UserKillState();
@@ -79,12 +79,12 @@ public class RedisService implements IRedisService {
             userKillState.setState("余量不足，抢购失败");
             userKillState.setTime(new Date(System.currentTimeMillis()));
             redisTemplate.opsForList().leftPush(killId + ".userStateList", userKillState);
-            return ResultUtils.success(new ResultMessage(55555, "余量不足，抢购失败", DateUtils.dateFormat(new Date()), System.currentTimeMillis()), "null");
+            return ResultUtils.error(new ResultMessage(55555, "余量不足，抢购失败"));
         }
         userKillState.setState("购买成功");
         userKillState.setTime(new Date(System.currentTimeMillis()));
         redisTemplate.opsForList().leftPush(killId + ".userStateList", userKillState);
-        return ResultUtils.success(new ResultMessage(55555, "购买成功", DateUtils.dateFormat(new Date()), System.currentTimeMillis()), "null");
+        return ResultUtils.success(new ResultMessage(55555, "购买成功"), "null");
     }
 
     private Boolean authUrl(String killId, String randomUrl){

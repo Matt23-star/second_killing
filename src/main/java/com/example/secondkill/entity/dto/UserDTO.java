@@ -1,24 +1,18 @@
-package com.example.secondkill.entity.pojo;
+package com.example.secondkill.entity.dto;
 
 import lombok.Data;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.UUID;
 
 /**
- * <p>
- * 
- * </p>
- *
- * @author Matt
- * @since 2022-02-25
+ * @author: Matt
+ * @date: 2022/3/27/20:44
+ * @description:
  */
 
 @Data
-public class User implements Serializable {
-
-    private String id = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase().substring(0, 32);
+public class UserDTO {
 
     private String name;
 
@@ -39,4 +33,6 @@ public class User implements Serializable {
     private BigDecimal deposit;
 
     private String password;
+
+    private String checkCode;
 }

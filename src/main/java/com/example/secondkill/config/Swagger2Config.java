@@ -34,8 +34,8 @@ public class Swagger2Config {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("Simple APIs")
-                .description("simple apis")
+        return new ApiInfoBuilder().title("SECOND-KILL")
+                .description("second-kill apis")
                 .contact(new Contact("Matt", "https://blog.csdn.net/m0_47359068?spm=1000.2115.3001.5343", "825256547@qq.com"))
                 .version("2.0")
                 .build();

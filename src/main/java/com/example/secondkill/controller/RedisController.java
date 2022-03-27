@@ -1,9 +1,5 @@
 package com.example.secondkill.controller;
 
-import com.example.secondkill.entity.Result;
-import com.example.secondkill.service.impl.RedisService;
-import io.swagger.annotations.ApiImplicitParam;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 

@@ -1,5 +1,6 @@
 package com.example.secondkill.entity;
 
+import com.example.secondkill.utils.DateUtils;
 import lombok.Data;
 
 import java.util.Date;
@@ -18,10 +19,10 @@ public class ResultMessage {
     private String time;
     private Long timestamp;
 
-    public ResultMessage(Integer code, String message, String time, Long timestamp) {
+    public ResultMessage(Integer code, String message) {
         this.code = code;
         this.message = message;
-        this.time = time;
-        this.timestamp = timestamp;
+        this.time = DateUtils.dateFormat(new Date());
+        this.timestamp = System.currentTimeMillis();
     }
 }

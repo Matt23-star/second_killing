@@ -3,9 +3,9 @@ package com.example.secondkill.controller;
 
 import com.example.secondkill.entity.Result;
 import com.example.secondkill.entity.dto.KillImformationDTO;
-import com.example.secondkill.entity.pojo.KillInformation;
 import com.example.secondkill.service.impl.Kill_informationServiceImpl;
-import com.example.secondkill.service.impl.RedisService;
+import com.example.secondkill.service.impl.RedisServiceImpl;
+import com.example.secondkill.utils.annotation.RequestLimitAnno;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,12 +27,19 @@ public class KillInformationController {
     private Kill_informationServiceImpl kill_informationService;
 
     @Autowired
-    private RedisService redisService;
+    private RedisServiceImpl redisService;
 
+    @RequestLimitAnno(reqUrl = "getRandomUrl")
     @GetMapping("/getRandomUrl/{userId}/{killInformationId}")
     public Result<String> getRandomUrl(@PathVariable String userId, @PathVariable String killInformationId){
         return kill_informationService.getRandomUrl(userId,killInformationId);
     }
+
+    @GetMapping("/getRandomUrlWithoutAOP/{userId}/{killInformationId}")
+    public Result<String> getRandomUrlWithoutAOP(@PathVariable String userId, @PathVariable String killInformationId){
+        return kill_informationService.getRandomUrl(userId,killInformationId);
+    }
+
 
     @GetMapping("/users/{uId}/kills/{killId}/products/{buyAmount}/{randomUrl}")
     @ApiImplicitParams({

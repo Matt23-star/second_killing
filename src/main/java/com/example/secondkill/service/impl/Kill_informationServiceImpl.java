@@ -3,13 +3,11 @@ package com.example.secondkill.service.impl;
 import com.example.secondkill.entity.Result;
 import com.example.secondkill.entity.ResultMessage;
 import com.example.secondkill.entity.dto.KillImformationDTO;
-import com.example.secondkill.entity.enums.ResultMsg;
 import com.example.secondkill.entity.pojo.KillInformation;
 import com.example.secondkill.entity.pojo.RuleInformation;
 import com.example.secondkill.mapper.Kill_informationMapper;
 import com.example.secondkill.service.IKill_informationService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.secondkill.utils.DateUtils;
 import com.example.secondkill.utils.ResultUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -18,7 +16,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.Date;
 import java.util.Set;
-import java.util.Stack;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -65,7 +62,7 @@ public class Kill_informationServiceImpl extends ServiceImpl<Kill_informationMap
                         if (!stringStringRedisTemplate.hasKey(killId + "inited")) {
                             String s = UUID.randomUUID().toString();
                             stringStringRedisTemplate.opsForValue().set(killId + "url", s);
-                            RedisService.initBloomFilters();
+                            RedisServiceImpl.initBloomFilters();
                             KillInformation killInformation = killInformationMapper.selectById(killId);
                             stringStringRedisTemplate.opsForValue()
                                     .set(killId + ".leftNum", killInformation.getProductNum() + "");
@@ -93,19 +90,19 @@ public class Kill_informationServiceImpl extends ServiceImpl<Kill_informationMap
     public Result getRandomUrl(String userId, String killInformationId) {
         String noCreateUrl = (String) redisTemplate.opsForValue().get(killInformationId + "noKillFlag");
         if (noCreateUrl != null)
-            return ResultUtils.error(new ResultMessage(1234, "秒杀活动尚未开始", DateUtils.dateFormat(new Date(System.currentTimeMillis())), System.currentTimeMillis()));
+            return ResultUtils.error(new ResultMessage(1234, "秒杀活动尚未开始"));
         String noEndKillFlag = (String) redisTemplate.opsForValue().get(killInformationId + "noEndKillFlag");
         if (noEndKillFlag == null)
-            return ResultUtils.error(new ResultMessage(2345, "秒杀活动已经结束", DateUtils.dateFormat(new Date(System.currentTimeMillis())), System.currentTimeMillis()));
+            return ResultUtils.error(new ResultMessage(2345, "秒杀活动已经结束"));
         String randomUrl = (String) redisTemplate.opsForValue().get(killInformationId + "randomUrl");
-        return ResultUtils.success(new ResultMessage(200, "动态url返回成功", DateUtils.dateFormat(new Date(System.currentTimeMillis())), System.currentTimeMillis()), randomUrl);
+        return ResultUtils.success(new ResultMessage(200, "动态url返回成功"), randomUrl);
     }
 
 
     @Override
     public Result addSecondKill(KillImformationDTO killImformationDTO) {
         if (killImformationDTO == null) {
-            return ResultUtils.error(new ResultMessage(500, "数据为空", DateUtils.dateFormat(new Date()), System.currentTimeMillis()));
+            return ResultUtils.error(new ResultMessage(500, "数据为空"));
         }
         RuleInformation ruleInformation = new RuleInformation();
         KillInformation killInformation = new KillInformation();
@@ -122,7 +119,7 @@ public class Kill_informationServiceImpl extends ServiceImpl<Kill_informationMap
         killInformation.setDescription(killImformationDTO.getDescription());
 
         if (killInformationMapper.insert(killInformation) <= 0)
-            return ResultUtils.error(new ResultMessage(500, "KillInformation insert error", DateUtils.dateFormat(new Date()), System.currentTimeMillis()));
+            return ResultUtils.error(new ResultMessage(500, "KillInformation insert error"));
         Date begin = killInformation.getBeginTime();
         Date end = killInformation.getEndTime();
         Long createUrlTimes = begin.getTime() - System.currentTimeMillis() - createUrl;
@@ -134,6 +131,6 @@ public class Kill_informationServiceImpl extends ServiceImpl<Kill_informationMap
                 .set(killInformation.getId() + "noKillFlag", killInformation.getId(), createUrlTimes + createUrl, TimeUnit.MILLISECONDS);
         redisTemplate.opsForValue()
                 .set(killInformation.getId() + "noEndKillFlag", killInformation.getId(), endTimes, TimeUnit.MILLISECONDS);
-        return ResultUtils.success(new ResultMessage(200, "Add Second Kill Successfully", DateUtils.dateFormat(new Date()), System.currentTimeMillis()));
+        return ResultUtils.success(new ResultMessage(200, "Add Second Kill Successfully"),null);
     }
 }
