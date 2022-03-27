@@ -59,7 +59,7 @@ public class SponsorController {
     public Result<KillInformation> getKillDetails(@PathVariable String killId) {
         KillInformation killInformation = sponsorService.getKillDetails(killId);
         if (killInformation == null) return ResultUtils.error
-                (new ResultMessage(410, "Second Kill Not Exists", DateUtils.dateFormat(new Date()), System.currentTimeMillis()));
+                (new ResultMessage(410, "Second Kill Not Exists"));
         else return ResultUtils.success(killInformation);
     }
 

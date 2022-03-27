@@ -56,7 +56,7 @@ public class SponsorServiceImpl extends ServiceImpl<SponsorMapper, Sponsor> impl
         int i = kill_informationMapper.updateById(killInformation);
         if (i <= 0) return ResultUtils.error
                 (new ResultMessage
-                        (411, "Update Failed", DateUtils.dateFormat(new Date()), System.currentTimeMillis()));
+                        (411, "Update Failed"));
         else return ResultUtils.success("Updated successfully.");
     }
 
@@ -65,7 +65,7 @@ public class SponsorServiceImpl extends ServiceImpl<SponsorMapper, Sponsor> impl
         int i = kill_informationMapper.deleteById(killId);
         if (i <= 0) return ResultUtils.error
                 (new ResultMessage
-                        (412, "Delete Failed", DateUtils.dateFormat(new Date()), System.currentTimeMillis()));
+                        (412, "Delete Failed"));
         else return ResultUtils.success("Deleted successfully.");
     }
 
