@@ -56,6 +56,7 @@ public class UserController {
     public Result register(UserDTO userDTO){
         return userService.register(userDTO);
     }
+
     @PostMapping("/login")
     public Result<User> userLogin(@RequestParam("userName")String userName,
                                   @RequestParam("password")String password,

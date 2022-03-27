@@ -5,6 +5,8 @@ import com.example.secondkill.entity.dto.UserDTO;
 import com.example.secondkill.entity.pojo.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * <p>
  *  服务类
@@ -15,4 +17,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserService extends IService<User> {
     Result register(UserDTO userDTO);
+
+    Result<User> userLogin(String userName, String password, HttpServletResponse response);
 }
