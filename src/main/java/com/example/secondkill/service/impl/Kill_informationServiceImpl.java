@@ -69,6 +69,8 @@ public class Kill_informationServiceImpl extends ServiceImpl<Kill_informationMap
                             stringStringRedisTemplate.opsForValue()
                                     .set(killId + ".buyMaximum", killInformation.getBuyMaximum() + "");
                             stringStringRedisTemplate.opsForValue().set(killId + "inited", " ");
+                            killInformation.setState("进行中");
+                            killInformationMapper.updateById(killInformation);
                         }
                     }
                 }
