@@ -1,5 +1,6 @@
 package com.example.secondkill.service;
 
+import com.example.secondkill.entity.Result;
 import com.example.secondkill.entity.pojo.ScreenResult;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -12,5 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-02-25
  */
 public interface IScreen_resultService extends IService<ScreenResult> {
-
+    Result screenUsers(String killId);
 }
