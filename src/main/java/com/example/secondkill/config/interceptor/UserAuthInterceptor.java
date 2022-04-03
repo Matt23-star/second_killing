@@ -1,5 +1,7 @@
 package com.example.secondkill.config.interceptor;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -17,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class UserAuthInterceptor implements HandlerInterceptor {
 
+    private Logger logger= LoggerFactory.getLogger(UserAuthInterceptor.class);
+
     @Autowired
     private RedisTemplate redisTemplate;
 
@@ -24,6 +28,8 @@ public class UserAuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //统一拦截
         Cookie[] cookies = request.getCookies();
+        logger.info(String.valueOf(cookies==null));
+
         Cookie token=null;
         for (Cookie cookie : cookies) {
             if ("userToken".equals(cookie.getName())){

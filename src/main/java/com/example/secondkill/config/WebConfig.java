@@ -22,6 +22,6 @@ public class WebConfig implements WebMvcConfigurer {
         //所有路径都被拦截
         registration.addPathPatterns("/**");
         //添加不拦截路径
-        registration.excludePathPatterns("/user/login","/user/register");
+        registration.excludePathPatterns("/user/login","/user/register","/hello");
     }
 }
