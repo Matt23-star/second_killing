@@ -1,5 +1,6 @@
 package com.example.secondkill.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.example.secondkill.entity.Result;
 import com.example.secondkill.entity.ResultMessage;
 import com.example.secondkill.entity.dto.KillImformationDTO;
@@ -38,7 +39,10 @@ import java.util.concurrent.TimeUnit;
 public class SponsorServiceImpl extends ServiceImpl<SponsorMapper, Sponsor> implements ISponsorService {
 
     @Autowired
-    SponsorMapper sponsorMapper;
+    private SponsorMapper sponsorMapper;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Autowired
     private Kill_informationMapper kill_informationMapper;
@@ -76,6 +80,11 @@ public class SponsorServiceImpl extends ServiceImpl<SponsorMapper, Sponsor> impl
                 (new ResultMessage
                         (412, "Delete Failed"));
         else return ResultUtils.success("Deleted successfully.");
+    }
+
+    @Override
+    public List<KillInformation> getAllKillWithLimit(Integer from, Integer num) {
+        return null;
     }
 
     private static final long EXPIRE_TIME=1*24*60*1000;
