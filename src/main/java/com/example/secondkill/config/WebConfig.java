@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @author zjl(1552217634 @ qq.com)
  * @date 2022/3/27 20:30
  */
-@Configuration
+//@Configuration
 public class WebConfig implements WebMvcConfigurer {
 
     @Override
@@ -23,13 +23,6 @@ public class WebConfig implements WebMvcConfigurer {
         //所有路径都被拦截
         registration1.addPathPatterns("/**");
         //添加不拦截路径
-        registration1.excludePathPatterns("/user/login","/user/register","/sponsor");
-
-        //注册adminAuthInterceptor拦截器
-        InterceptorRegistration registration2 = registry.addInterceptor(new AdminAuthInterceptor());
-        //添加拦截路径
-        registration2.addPathPatterns("/sponsor");
-        //添加不拦截路径
-        registration2.excludePathPatterns("/sponsor/login");
+        registration.excludePathPatterns("/user/login","/user/register");
     }
 }

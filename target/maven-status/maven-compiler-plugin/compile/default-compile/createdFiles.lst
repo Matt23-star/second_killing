@@ -32,7 +32,6 @@ com\example\secondkill\service\impl\SponsorServiceImpl.class
 com\example\secondkill\entity\ResultMessage.class
 com\example\secondkill\service\IProduct_informationService.class
 com\example\secondkill\controller\RedisController.class
-com\example\secondkill\controller\HelloController.class
 com\example\secondkill\service\impl\Kill_informationServiceImpl.class
 com\example\secondkill\service\impl\Screen_resultServiceImpl.class
 com\example\secondkill\config\RedisConfig.class
@@ -42,7 +41,6 @@ com\example\secondkill\utils\annotation\RequestLimitAnno.class
 com\example\secondkill\entity\pojo\UserKillState.class
 com\example\secondkill\controller\UserController.class
 com\example\secondkill\mapper\User_kill_stateMapper.class
-com\example\secondkill\service\impl\RedisService.class
 com\example\secondkill\utils\aspect\RequestLimitAspect.class
 com\example\secondkill\controller\RuleInformationController.class
 com\example\secondkill\service\ISponsorService.class

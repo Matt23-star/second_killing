@@ -39,4 +39,10 @@ public class User implements Serializable {
     private BigDecimal deposit;
 
     private String password;
+
+    private String profession;
+
+    private String uncredit;
+
+    private Integer riskDegree;
 }
