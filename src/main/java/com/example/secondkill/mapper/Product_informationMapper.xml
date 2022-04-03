@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.secondkill.mapper.Product_informationMapper">
-
+    <select id="universalProductSelect" resultType="com.example.secondkill.entity.pojo.ProductInformation">
+        select * from product_information
+        where ${colName} like '%${value}%'
+        order by ${orderBy} ${aORd}
+        limit #{from} ,#{limit};
+    </select>
 </mapper>

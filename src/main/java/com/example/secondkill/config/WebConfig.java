@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @author zjl(1552217634 @ qq.com)
  * @date 2022/3/27 20:30
  */
-@Configuration
+//@Configuration
 public class WebConfig implements WebMvcConfigurer {
 
     @Override
@@ -22,6 +22,6 @@ public class WebConfig implements WebMvcConfigurer {
         //所有路径都被拦截
         registration.addPathPatterns("/**");
         //添加不拦截路径
-        registration.excludePathPatterns("/user/login","/user/register");
+        registration.excludePathPatterns("/user/login","/user/register","swagger-ui.html");
     }
 }
