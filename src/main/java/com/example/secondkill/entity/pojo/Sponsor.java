@@ -22,4 +22,6 @@ public class Sponsor implements Serializable {
 
     private String description;
 
+    private String password;
+
 }

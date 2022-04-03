@@ -92,7 +92,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             return ResultUtils.error(new ResultMessage(12002,"邮箱或密码错误"));
         //查到有相关用户
         User u = users.get(0);
-        redisTemplate.opsForValue().set(u.getId()+"token",u.getId(),EXPIRE_TIME, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set(u.getId()+"userToken",u.getId(),EXPIRE_TIME, TimeUnit.MILLISECONDS);
         Cookie cookie=new Cookie("userToken",u.getId());
         response.addCookie(cookie);
         return ResultUtils.success(u);

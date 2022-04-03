@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 
@@ -73,6 +74,14 @@ public class SponsorController {
     @PostMapping("deleteKillInfo/{killId}")
     public Result deleteKillInfo (@PathVariable("killId") String killId) {
         return sponsorService.deleteKillInfo(killId);
+    }
+
+    //管理员登录
+    @PostMapping("/login")
+    public Result adminLogin(@RequestParam("name")String name,
+                             @RequestParam("password")String password,
+                             HttpServletResponse response){
+        return sponsorService.login(name,password,response);
     }
 }
 

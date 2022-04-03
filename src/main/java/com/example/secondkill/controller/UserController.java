@@ -58,7 +58,6 @@ public class UserController {
     }
 
     @PostMapping("/login")
-
     public Result userLogin(@RequestParam("email")String email,
                             @RequestParam("password")String password,
                             HttpServletResponse response) {

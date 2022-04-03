@@ -1,5 +1,6 @@
 package com.example.secondkill.config;
 
+import com.example.secondkill.config.interceptor.AdminAuthInterceptor;
 import com.example.secondkill.config.interceptor.UserAuthInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
@@ -17,11 +18,18 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         //添加拦截器
         //registry.addInterceptor(new JwtInterceptor()).excludePathPatterns("user/login","user/register");
-        //注册TestInterceptor拦截器
-        InterceptorRegistration registration = registry.addInterceptor(new UserAuthInterceptor());
+        //注册userAuthInterceptor拦截器
+        InterceptorRegistration registration1 = registry.addInterceptor(new UserAuthInterceptor());
         //所有路径都被拦截
-        registration.addPathPatterns("/**");
+        registration1.addPathPatterns("/**");
         //添加不拦截路径
-        registration.excludePathPatterns("/user/login","/user/register","/hello");
+        registration1.excludePathPatterns("/user/login","/user/register","/sponsor");
+
+        //注册adminAuthInterceptor拦截器
+        InterceptorRegistration registration2 = registry.addInterceptor(new AdminAuthInterceptor());
+        //添加拦截路径
+        registration2.addPathPatterns("/sponsor");
+        //添加不拦截路径
+        registration2.excludePathPatterns("/sponsor/login");
     }
 }

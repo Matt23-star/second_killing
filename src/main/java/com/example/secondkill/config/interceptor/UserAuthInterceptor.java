@@ -38,7 +38,7 @@ public class UserAuthInterceptor implements HandlerInterceptor {
             }
         }
         if(token==null)return false;
-        String uid = (String)redisTemplate.opsForValue().get(token.getValue() + "token");
+        String uid = (String)redisTemplate.opsForValue().get(token.getValue() + "userToken");
         if(uid==null)return false;
         return true;
     }
