@@ -3,12 +3,15 @@ package com.example.secondkill.controller;
 
 import com.example.secondkill.entity.Result;
 import com.example.secondkill.entity.dto.KillImformationDTO;
+import com.example.secondkill.entity.pojo.KillInformation;
 import com.example.secondkill.service.impl.Kill_informationServiceImpl;
 import com.example.secondkill.service.impl.RedisServiceImpl;
 import com.example.secondkill.utils.annotation.RequestLimitAnno;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -53,6 +56,13 @@ public class KillInformationController {
                              @PathVariable("buyAmount") Integer buyAmount,
                              @PathVariable("randomUrl") String randomUrl) {
         return redisService.secondKill(uId, killId, buyAmount,randomUrl);
+    }
+
+    @GetMapping("/getAvailableKill/{userId}/{from}/{num}")
+    public Result<List<KillInformation>> getAvailableKill(@PathVariable("userId") String userId,
+                                                          @PathVariable("from") String from,
+                                                          @PathVariable("num") String num){
+        return kill_informationService.getAvailableKill(userId, from, num);
     }
 
 //    @PostMapping("/insert")
