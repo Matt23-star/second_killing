@@ -86,6 +86,9 @@ public class RedisServiceImpl implements IRedisService {
         userKillState.setUserId(userId);
         userKillState.setKillActivityId(killId);
         redisTemplate.opsForList().leftPush(killId + ".userStateList", userKillState);
+
+        redisTemplate.opsForValue().set(killId + "." + userId + ".waiting for pay", "");
+        redisTemplate.opsForValue().set(killId + "." + userId + ".buyNum", buyAmount);
         return ResultUtils.success(new ResultMessage(6666, "下单成功"), "null");
     }
 

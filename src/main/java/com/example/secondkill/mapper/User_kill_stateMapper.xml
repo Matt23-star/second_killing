@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.secondkill.mapper.User_kill_stateMapper">
-
+    <select id="selectByUidAndKid" resultType="com.example.secondkill.entity.pojo.UserKillState">
+        select * from user_kill_state
+        where user_id = #{userId} and kill_info_id = #{killId}
+    </select>
 </mapper>
