@@ -6,9 +6,11 @@ import com.example.secondkill.entity.ResultMessage;
 import com.example.secondkill.entity.dto.KillImformationDTO;
 import com.example.secondkill.entity.pojo.KillInformation;
 import com.example.secondkill.entity.pojo.ProductInformation;
+import com.example.secondkill.entity.pojo.User;
 import com.example.secondkill.service.IKill_informationService;
 import com.example.secondkill.service.IProduct_informationService;
 import com.example.secondkill.service.ISponsorService;
+import com.example.secondkill.service.IUserService;
 import com.example.secondkill.utils.DateUtils;
 import com.example.secondkill.utils.ResultUtils;
 import io.swagger.annotations.Api;
@@ -17,6 +19,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.jws.soap.SOAPBinding;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 
@@ -38,6 +42,9 @@ public class SponsorController {
 
     @Autowired
     private ISponsorService sponsorService;
+
+    @Autowired
+    private IUserService userService;
 
     @Autowired
     private IProduct_informationService productInformationService;
@@ -115,5 +122,38 @@ public class SponsorController {
     public Result updateProduct(@RequestBody ProductInformation productInformation){
         return productInformationService.updateProduct(productInformation);
     }
+
+    @PostMapping("/login")
+    public Result adminLogin(@RequestParam String name,
+                             @RequestParam String password,
+                             HttpServletResponse response){
+        return sponsorService.login(name,password,response);
+    }
+
+    @GetMapping("/getUserList/{colName}/{value}/{orderBy}/{aOrD}/{from}/{num}")
+    public Result queryUserList(@PathVariable("colName") String colName,
+                                @PathVariable("value") String value,
+                                @PathVariable("orderBy") String orderBy,
+                                @PathVariable("aOrD") String aOrD,
+                                @PathVariable("from") Integer from,
+                                @PathVariable("num") Integer num){
+        return userService.selectUserList(colName, value, orderBy, aOrD, from, num);
+    }
+
+    @PostMapping("/deleteUser/{userId}")
+    public Result deleteUser(@PathVariable("userId") String userId){
+        return userService.deleteUser(userId);
+    }
+
+    @PostMapping("/addUser")
+    public Result addUser(@RequestBody User user) {
+        return userService.addUser(user);
+    }
+
+    @PostMapping("/updateUserInfo")
+    public Result updateUserInfo(@RequestBody User user){
+        return userService.updateUserInfo(user);
+    }
+
 }
 

@@ -3,11 +3,15 @@ package com.example.secondkill.service;
 import com.example.secondkill.entity.Result;
 import com.example.secondkill.entity.dto.KillImformationDTO;
 import com.example.secondkill.entity.pojo.KillInformation;
+import com.example.secondkill.entity.pojo.ProductInformation;
 import com.example.secondkill.entity.pojo.Sponsor;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.secondkill.entity.pojo.User;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.jws.soap.SOAPBinding;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -24,4 +28,5 @@ public interface ISponsorService extends IService<Sponsor> {
     KillInformation getKillDetails(String killId);
     Result updateKillInfo (KillInformation killInformation);
     Result deleteKillInfo(String killId);
+    Result login(String name, String password, HttpServletResponse response);
 }

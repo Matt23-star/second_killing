@@ -98,4 +98,43 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         return ResultUtils.success(u);
     }
 
+    @Override
+    public Result addUser(User user) {
+        if(user==null){
+            return ResultUtils.error(new ResultMessage(14001,"用户信息为空"));
+        }
+        if(userMapper.insert(user)<=0){
+            return ResultUtils.error(new ResultMessage(14002,"添加失败"));
+        }
+        return ResultUtils.success();
+    }
+
+    @Override
+    public Result deleteUser(String uid) {
+        if(uid==null||uid.length()==0){
+            return ResultUtils.error(new ResultMessage(14003,"用户id为空"));
+        }
+        if(userMapper.deleteById(uid)<=0){
+            return ResultUtils.error(new ResultMessage(14004,"删除用户记录失败"));
+        }
+        return ResultUtils.success();
+    }
+
+    @Override
+    public Result updateUserInfo(User user) {
+        if(user==null){
+            return ResultUtils.error(new ResultMessage(14005,"用户信息为空"));
+        }
+        if(userMapper.updateById(user)<=0){
+            return ResultUtils.error(new ResultMessage(14006,"用户信息更新失败"));
+        }
+        return ResultUtils.success();
+    }
+
+    @Override
+    public Result selectUserList(String colName, String value, String orderBy, String aOrD, int from, int limit) {
+        List<User> users = userMapper.universalUserSelect(colName, value, orderBy, aOrD, from, limit);
+        return ResultUtils.success(users);
+    }
+
 }

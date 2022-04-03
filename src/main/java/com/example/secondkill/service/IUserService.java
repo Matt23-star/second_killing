@@ -5,6 +5,7 @@ import com.example.secondkill.entity.dto.UserDTO;
 import com.example.secondkill.entity.pojo.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import javax.jws.soap.SOAPBinding;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -19,4 +20,9 @@ public interface IUserService extends IService<User> {
     Result register(UserDTO userDTO);
 
     Result<User> userLogin(String userName, String password, HttpServletResponse response);
+
+    Result addUser(User user);
+    Result deleteUser(String uid);
+    Result updateUserInfo(User user);
+    Result selectUserList(String colName, String value, String orderBy, String aOrD, int from, int limit);
 }

@@ -5,10 +5,12 @@ import com.example.secondkill.entity.Result;
 import com.example.secondkill.entity.ResultMessage;
 import com.example.secondkill.entity.dto.KillImformationDTO;
 import com.example.secondkill.entity.pojo.KillInformation;
+import com.example.secondkill.entity.pojo.ProductInformation;
 import com.example.secondkill.entity.pojo.Sponsor;
 import com.example.secondkill.entity.pojo.User;
 import com.example.secondkill.mapper.Kill_informationMapper;
 import com.example.secondkill.mapper.SponsorMapper;
+import com.example.secondkill.mapper.UserMapper;
 import com.example.secondkill.service.ISponsorService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.secondkill.utils.DateUtils;
@@ -38,6 +40,9 @@ public class SponsorServiceImpl extends ServiceImpl<SponsorMapper, Sponsor> impl
 
     @Autowired
     SponsorMapper sponsorMapper;
+
+    @Autowired
+    UserMapper userMapper;
 
     @Autowired
     private Kill_informationMapper kill_informationMapper;

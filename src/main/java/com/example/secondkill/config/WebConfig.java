@@ -23,6 +23,14 @@ public class WebConfig implements WebMvcConfigurer {
         //所有路径都被拦截
         registration1.addPathPatterns("/**");
         //添加不拦截路径
-        registration.excludePathPatterns("/user/login","/user/register");
+        registration1.excludePathPatterns("/user/login","/user/register","/sponsor");
+
+        //注册adminAuthInterceptor拦截器
+        InterceptorRegistration registration2 = registry.addInterceptor(new AdminAuthInterceptor());
+        //添加拦截路径
+        registration2.addPathPatterns("/sponsor");
+        //添加不拦截路径
+        registration2.excludePathPatterns("/sponsor/login");
+
     }
 }
