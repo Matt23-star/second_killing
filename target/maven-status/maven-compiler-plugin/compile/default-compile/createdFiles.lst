@@ -10,6 +10,7 @@ com\example\secondkill\controller\KillInformationController.class
 com\example\secondkill\config\MybatisPlusConfig.class
 com\example\secondkill\service\impl\UserServiceImpl.class
 com\example\secondkill\entity\pojo\Sponsor.class
+com\example\secondkill\config\interceptor\AdminAuthInterceptor.class
 com\example\secondkill\utils\DateUtils.class
 com\example\secondkill\mapper\Order_informationMapper.class
 com\example\secondkill\controller\OrderInformationController.class
@@ -32,6 +33,7 @@ com\example\secondkill\service\impl\SponsorServiceImpl.class
 com\example\secondkill\entity\ResultMessage.class
 com\example\secondkill\service\IProduct_informationService.class
 com\example\secondkill\controller\RedisController.class
+com\example\secondkill\controller\HelloController.class
 com\example\secondkill\service\impl\Kill_informationServiceImpl.class
 com\example\secondkill\service\impl\Screen_resultServiceImpl.class
 com\example\secondkill\config\RedisConfig.class

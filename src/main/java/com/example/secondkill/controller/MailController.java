@@ -22,18 +22,18 @@ public class MailController {
     private MailService mailService;
 
     @PostMapping("/poll-codes")
-    @ApiOperation(value = "通过account和email发送验证码，返回验证码")
+    @ApiOperation(value = "通过nickname和email发送验证码，返回验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "account", value = "用户名account", dataType = "String", paramType = "query", required = true),
+            @ApiImplicitParam(name = "nickname", value = "用户名nickname", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "email", value = "用户邮箱email", dataType = "String", paramType = "query", required = true)
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "成功", response = String.class),
             @ApiResponse(code = 503, message = "邮件发送失败")
     })
-    public Result<String> getPollCode(@RequestParam("account") String account,
+    public Result<String> getPollCode(@RequestParam("nickname") String nickname,
                                       @RequestParam("email") String password) {
-        return mailService.sendVerifyEmail(account, password);
+        return mailService.sendVerifyEmail(nickname, password);
     }
 
 }
