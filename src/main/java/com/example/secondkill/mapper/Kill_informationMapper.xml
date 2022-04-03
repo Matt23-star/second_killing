@@ -7,4 +7,9 @@
         order by ${orderBy} ${aORd}
         limit #{from} ,#{limit};
     </select>
+
+    <select id="getAllKillWithLimit" resultType="com.example.secondkill.entity.pojo.KillInformation">
+        select * from kill_information
+        limit #{from} ,#{num};
+    </select>
 </mapper>

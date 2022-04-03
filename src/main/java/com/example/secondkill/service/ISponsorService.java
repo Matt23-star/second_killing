@@ -24,4 +24,5 @@ public interface ISponsorService extends IService<Sponsor> {
     KillInformation getKillDetails(String killId);
     Result updateKillInfo (KillInformation killInformation);
     Result deleteKillInfo(String killId);
+    List<KillInformation> getAllKillWithLimit(Integer from, Integer num);
 }

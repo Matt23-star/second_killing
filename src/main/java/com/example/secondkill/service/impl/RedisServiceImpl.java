@@ -81,10 +81,12 @@ public class RedisServiceImpl implements IRedisService {
             redisTemplate.opsForList().leftPush(killId + ".userStateList", userKillState);
             return ResultUtils.error(new ResultMessage(55555, "余量不足，抢购失败"));
         }
-        userKillState.setState("购买成功");
+        userKillState.setState("下单成功");
         userKillState.setTime(new Date(System.currentTimeMillis()));
+        userKillState.setUserId(userId);
+        userKillState.setKillActivityId(killId);
         redisTemplate.opsForList().leftPush(killId + ".userStateList", userKillState);
-        return ResultUtils.success(new ResultMessage(55555, "购买成功"), "null");
+        return ResultUtils.success(new ResultMessage(6666, "下单成功"), "null");
     }
 
     private Boolean authUrl(String killId, String randomUrl){

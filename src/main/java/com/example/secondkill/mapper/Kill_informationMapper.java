@@ -25,4 +25,7 @@ public interface Kill_informationMapper extends BaseMapper<KillInformation> {
                                               @Param("from") int from,
                                               @Param("limit") int limit
     );
+
+    List<KillInformation> getAllKillWithLimit(@Param("from") Integer from,
+                                     @Param("num") Integer num);
 }

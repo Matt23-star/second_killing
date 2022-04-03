@@ -69,4 +69,9 @@ public class SponsorServiceImpl extends ServiceImpl<SponsorMapper, Sponsor> impl
         else return ResultUtils.success("Deleted successfully.");
     }
 
+    @Override
+    public List<KillInformation> getAllKillWithLimit(Integer from, Integer num) {
+        return kill_informationMapper.getAllKillWithLimit(from, num);
+    }
+
 }
