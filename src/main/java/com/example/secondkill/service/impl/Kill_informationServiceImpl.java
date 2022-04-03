@@ -61,7 +61,7 @@ public class Kill_informationServiceImpl extends ServiceImpl<Kill_informationMap
                     if (!stringStringRedisTemplate.hasKey(killId + "noCreateUrlFlag")) {
                         if (!stringStringRedisTemplate.hasKey(killId + "inited")) {
                             String s = UUID.randomUUID().toString();
-                            stringStringRedisTemplate.opsForValue().set(killId + "url", s);
+                            stringStringRedisTemplate.opsForValue().set(killId + "randomUrl", s);
                             RedisServiceImpl.initBloomFilters();
                             KillInformation killInformation = killInformationMapper.selectById(killId);
                             stringStringRedisTemplate.opsForValue()

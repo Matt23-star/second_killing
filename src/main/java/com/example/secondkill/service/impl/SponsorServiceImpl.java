@@ -52,6 +52,7 @@ public class SponsorServiceImpl extends ServiceImpl<SponsorMapper, Sponsor> impl
         sponsorMapper.insert(sponsor);
     }
 
+
     //全局模糊查询
     public List<KillInformation> universalKillSelect(String colName, String value, String orderBy, String aOrD, int from, int limit){
         final List<KillInformation> killInformations
@@ -84,7 +85,7 @@ public class SponsorServiceImpl extends ServiceImpl<SponsorMapper, Sponsor> impl
 
     @Override
     public List<KillInformation> getAllKillWithLimit(Integer from, Integer num) {
-        return null;
+        return kill_informationMapper.getAllKillWithLimit(from, num);
     }
 
     private static final long EXPIRE_TIME=1*24*60*1000;
