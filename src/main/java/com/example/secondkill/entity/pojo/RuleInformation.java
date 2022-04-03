@@ -19,4 +19,17 @@ public class RuleInformation implements Serializable {
 
     private String id = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase().substring(0, 32);
 
+    private String depositMin;
+
+    private String depositMax;
+
+    private String ageMin;
+
+    private String ageMax;
+
+    private String professions;
+
+    private String allowUncredit;
+
+    private Integer riskDegree;
 }
