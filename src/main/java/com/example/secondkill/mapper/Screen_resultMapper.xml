@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.secondkill.mapper.Screen_resultMapper">
-
+    <select id="getByUserId" resultType="com.example.secondkill.entity.pojo.ScreenResult">
+        select * from screen_result
+        where user_id = #{userId}
+        limit #{from}, #{num}
+    </select>
 </mapper>

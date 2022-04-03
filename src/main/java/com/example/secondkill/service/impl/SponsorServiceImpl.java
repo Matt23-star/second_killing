@@ -1,6 +1,5 @@
 package com.example.secondkill.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.example.secondkill.entity.Result;
 import com.example.secondkill.entity.ResultMessage;
 import com.example.secondkill.entity.dto.KillImformationDTO;
@@ -42,13 +41,7 @@ public class SponsorServiceImpl extends ServiceImpl<SponsorMapper, Sponsor> impl
     SponsorMapper sponsorMapper;
 
     @Autowired
-    UserMapper userMapper;
-
-    @Autowired
     private Kill_informationMapper kill_informationMapper;
-
-    @Autowired
-    private RedisTemplate redisTemplate;
 
     @Override
     public void addSponsor(Sponsor sponsor) {

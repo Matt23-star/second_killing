@@ -5,7 +5,9 @@ import com.example.secondkill.entity.ResultMessage;
 import com.example.secondkill.entity.dto.KillImformationDTO;
 import com.example.secondkill.entity.pojo.KillInformation;
 import com.example.secondkill.entity.pojo.RuleInformation;
+import com.example.secondkill.entity.pojo.ScreenResult;
 import com.example.secondkill.mapper.Kill_informationMapper;
+import com.example.secondkill.mapper.Screen_resultMapper;
 import com.example.secondkill.service.IKill_informationService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.secondkill.utils.ResultUtils;
@@ -14,9 +16,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.Date;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -80,6 +80,9 @@ public class Kill_informationServiceImpl extends ServiceImpl<Kill_informationMap
     private Kill_informationMapper killInformationMapper;
 
     @Autowired
+    private Screen_resultMapper srMapper;
+
+    @Autowired
     private RedisTemplate<Object, Object> redisTemplate;
 
     @Autowired
@@ -96,6 +99,16 @@ public class Kill_informationServiceImpl extends ServiceImpl<Kill_informationMap
             return ResultUtils.error(new ResultMessage(2345, "秒杀活动已经结束"));
         String randomUrl = (String) redisTemplate.opsForValue().get(killInformationId + "randomUrl");
         return ResultUtils.success(new ResultMessage(200, "动态url返回成功"), randomUrl);
+    }
+
+    @Override
+    public Result<List<KillInformation>> getAvailableKill(String userId, String from, String num) {
+        LinkedList<KillInformation> results = new LinkedList<>();
+        List<ScreenResult> srs = srMapper.getByUserId(userId);
+        for (ScreenResult sr : srs) {
+            results.add(killInformationMapper.selectById(sr.getKillInfoId()));
+        }
+        return ResultUtils.success(new ResultMessage(199, "可用秒杀列表返回成功"), results);
     }
 
 

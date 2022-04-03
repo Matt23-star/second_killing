@@ -77,6 +77,15 @@ public class SponsorController {
         return ResultUtils.success(killInformations);
     }
 
+    @GetMapping("getAllKill/{from}/{num}")
+    public Result<List<KillInformation>> getAllKill(@PathVariable("from")Integer from,
+                                                    @PathVariable("num") Integer num) {
+        List<KillInformation> kills = sponsorService.getAllKillWithLimit(from, num);
+        if (kills == null || kills.isEmpty()) return ResultUtils.error
+                (new ResultMessage(410, "Second Kill Not Exists"));
+        else return ResultUtils.success(kills);
+    }
+
     // 秒杀活动详情接口
     @GetMapping("/getKillDetails/{killId}")
     public Result<KillInformation> getKillDetails(@PathVariable String killId) {
