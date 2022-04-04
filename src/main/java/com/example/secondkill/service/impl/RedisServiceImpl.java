@@ -29,6 +29,9 @@ public class RedisServiceImpl implements IRedisService {
     @Autowired
     RedisTemplate redisTemplate;
 
+    @Autowired
+    RedisTemplate<String, String> stringStringRedisTemplate;
+
     // 双布隆3 32锁
     private static final int availableProcessorsNum = Runtime.getRuntime().availableProcessors();
     private static final BloomFilter<String>[] bloomFilters = new BloomFilter[(availableProcessorsNum) * 4];
@@ -53,7 +56,7 @@ public class RedisServiceImpl implements IRedisService {
         if(!authUrl(killId,randomUrl)){
             return ResultUtils.error(ResultMsg.ERROR);
         }
-        int index = userId.hashCode() % (availableProcessorsNum * 2);
+        int index = Math.abs(userId.hashCode()) % (availableProcessorsNum * 2);
         synchronized (locks[index]) {
             BloomFilter<String> outBloomFilter = bloomFilters[index * 2];
             BloomFilter<String> inBloomFilter = bloomFilters[index * 2 + 1];
@@ -66,7 +69,7 @@ public class RedisServiceImpl implements IRedisService {
                 inBloomFilter.put(userId);
             }
         }
-        if(buyAmount>Integer.parseInt((String)redisTemplate.opsForValue().get(killId + ".buyMaximum"))){
+        if(buyAmount>(Integer)redisTemplate.opsForValue().get(killId + ".buyMaximum")){
             return ResultUtils.error(new ResultMessage(500, "超过最大购买量"));
         }
         Long decrement = 0L;
@@ -93,7 +96,8 @@ public class RedisServiceImpl implements IRedisService {
     }
 
     private Boolean authUrl(String killId, String randomUrl){
-        String url = (String) redisTemplate.opsForValue().get(killId + "url");
+        String url = stringStringRedisTemplate.opsForValue().get(killId + "randomUrl");
+        System.out.println(url);
         return url==null?false:url.equals(randomUrl);
     }
 }

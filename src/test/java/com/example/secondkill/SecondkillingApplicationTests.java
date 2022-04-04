@@ -123,7 +123,7 @@ class SecondkillingApplicationTests {
 
     @Test
     public void addRandomData() {
-        for (int i = 0; i < 100; i++) {
+        /*for (int i = 0; i < 100; i++) {
             User user = new User();
             int randomInt = new Random().nextInt(100000000);
             user.setId(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase().substring(0, 32));
@@ -147,7 +147,7 @@ class SecondkillingApplicationTests {
             else user.setProfession("退休人员");
 
             userMapper.insert(user);
-        }
+        }*/
     }
 
     public static String getRandomChineseString(int n) {

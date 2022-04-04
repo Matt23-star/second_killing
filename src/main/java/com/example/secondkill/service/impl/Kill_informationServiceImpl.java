@@ -36,43 +36,46 @@ public class Kill_informationServiceImpl extends ServiceImpl<Kill_informationMap
         new Thread(() -> {
             while (true) {
                 try {
+                    System.out.println("sleep");
                     Thread.sleep(4000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Set<String> killIds = stringStringRedisTemplate.opsForSet().members("secondKills");
-                for (String killId : killIds) {
-                    if (!stringStringRedisTemplate.hasKey(killId + "noEndKillFlag")) {
-                        // 此时线程发现该秒杀活动已经结束
-                        stringStringRedisTemplate.opsForSet().remove("secondKills", killId);
-                        stringStringRedisTemplate.delete(killId + "url");
-                        stringStringRedisTemplate.delete(killId + "inited");
-                        stringStringRedisTemplate.delete(killId + ".buyMaximum");
-                        KillInformation killInformation = killInformationMapper.selectById(killId);
-                        killInformation
-                                .setSurplusNum(Integer.parseInt(
-                                        stringStringRedisTemplate.opsForValue().get(killId + ".leftNum")));
-                        stringStringRedisTemplate.delete(killId + ".leftNum");
-                        killInformation.setState("已结束");
-                        killInformationMapper.updateById(killInformation);
-                        continue;
-                    }
-                    // 进行布隆过滤器的初始化、随机秒杀连接的初始化以及缓存的初始化写入
-                    if (!stringStringRedisTemplate.hasKey(killId + "noCreateUrlFlag")) {
-                        if (!stringStringRedisTemplate.hasKey(killId + "inited")) {
-                            String s = UUID.randomUUID().toString();
-                            stringStringRedisTemplate.opsForValue().set(killId + "randomUrl", s);
-                            RedisServiceImpl.initBloomFilters();
-                            KillInformation killInformation = killInformationMapper.selectById(killId);
-                            stringStringRedisTemplate.opsForValue()
-                                    .set(killId + ".leftNum", killInformation.getProductNum() + "");
-                            stringStringRedisTemplate.opsForValue()
-                                    .set(killId + ".buyMaximum", killInformation.getBuyMaximum() + "");
-                            stringStringRedisTemplate.opsForValue().set(killId + "inited", " ");
-                            killInformation.setState("进行中");
-                            killInformationMapper.updateById(killInformation);
+                    synchronized (this) {
+                        Set<String> killIds = stringStringRedisTemplate.opsForSet().members("secondKills");
+                        for (String killId : killIds) {
+                            if (stringStringRedisTemplate.opsForValue().get(killId + "noEndKillFlag") == null) {
+                                // 此时线程发现该秒杀活动已经结束
+                                stringStringRedisTemplate.opsForSet().remove("secondKills", killId);
+                                stringStringRedisTemplate.delete(killId + "randomUrl");
+                                stringStringRedisTemplate.delete(killId + "inited");
+                                stringStringRedisTemplate.delete(killId + ".buyMaximum");
+                                KillInformation killInformation = killInformationMapper.selectById(killId);
+                                killInformation
+                                        .setSurplusNum(Integer.parseInt(
+                                                stringStringRedisTemplate.opsForValue().get(killId + ".leftNum")));
+                                stringStringRedisTemplate.delete(killId + ".leftNum");
+                                killInformation.setState("已结束");
+                                killInformationMapper.updateById(killInformation);
+                                continue;
+                            }
+                            // 进行布隆过滤器的初始化、随机秒杀连接的初始化以及缓存的初始化写入
+                            else if (!stringStringRedisTemplate.hasKey(killId + "noCreateUrlFlag")) {
+                                if (!stringStringRedisTemplate.hasKey(killId + "inited")) {
+                                    String s = UUID.randomUUID().toString();
+                                    stringStringRedisTemplate.opsForValue().set(killId + "randomUrl", s);
+                                    RedisServiceImpl.initBloomFilters();
+                                    KillInformation killInformation = killInformationMapper.selectById(killId);
+                                    stringStringRedisTemplate.opsForValue()
+                                            .set(killId + ".leftNum", killInformation.getProductNum() + "");
+                                    stringStringRedisTemplate.opsForValue()
+                                            .set(killId + ".buyMaximum", killInformation.getBuyMaximum() + "");
+                                    stringStringRedisTemplate.opsForValue().set(killId + "inited", " ");
+                                    killInformation.setState("进行中");
+                                    killInformationMapper.updateById(killInformation);
+                                }
+                            }
                         }
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }).start();
@@ -85,21 +88,18 @@ public class Kill_informationServiceImpl extends ServiceImpl<Kill_informationMap
     private Screen_resultMapper srMapper;
 
     @Autowired
-    private RedisTemplate<Object, Object> redisTemplate;
-
-    @Autowired
     private RedisTemplate<String, String> stringStringRedisTemplate;
 
     private static final Long createUrl = 5000L;
 
     public Result getRandomUrl(String userId, String killInformationId) {
-        String noCreateUrl = (String) redisTemplate.opsForValue().get(killInformationId + "noKillFlag");
+        String noCreateUrl = stringStringRedisTemplate.opsForValue().get(killInformationId + "noKillFlag");
         if (noCreateUrl != null)
             return ResultUtils.error(new ResultMessage(1234, "秒杀活动尚未开始"));
-        String noEndKillFlag = (String) redisTemplate.opsForValue().get(killInformationId + "noEndKillFlag");
+        String noEndKillFlag = stringStringRedisTemplate.opsForValue().get(killInformationId + "noEndKillFlag");
         if (noEndKillFlag == null)
             return ResultUtils.error(new ResultMessage(2345, "秒杀活动已经结束"));
-        String randomUrl = (String) redisTemplate.opsForValue().get(killInformationId + "randomUrl");
+        String randomUrl = stringStringRedisTemplate.opsForValue().get(killInformationId + "randomUrl");
         return ResultUtils.success(new ResultMessage(200, "动态url返回成功"), randomUrl);
     }
 
@@ -116,36 +116,40 @@ public class Kill_informationServiceImpl extends ServiceImpl<Kill_informationMap
 
     @Override
     public Result addSecondKill(KillImformationDTO killImformationDTO) {
-        if (killImformationDTO == null) {
-            return ResultUtils.error(new ResultMessage(500, "数据为空"));
+        synchronized (this) {
+            if (killImformationDTO == null) {
+                return ResultUtils.error(new ResultMessage(500, "数据为空"));
+            }
+            if (killImformationDTO.getBeginTime().getTime() <= System.currentTimeMillis())
+                return ResultUtils.error(new ResultMessage(599, "开始时间不合法"));
+            RuleInformation ruleInformation = new RuleInformation();
+            KillInformation killInformation = new KillInformation();
+
+            killInformation.setProductId(killImformationDTO.getProductId());
+            killInformation.setProductNum(killImformationDTO.getProductNum());
+            killInformation.setSurplusNum(killImformationDTO.getProductNum());
+            killInformation.setBuyMaximum(killImformationDTO.getBuyMaximum());
+            killInformation.setBeginTime(killImformationDTO.getBeginTime());
+            killInformation.setEndTime(killImformationDTO.getEndTime());
+            killInformation.setState("未开始");
+            killInformation.setRuleId(ruleInformation.getId());
+            killInformation.setSponsorId(killImformationDTO.getSponsorId());
+            killInformation.setDescription(killImformationDTO.getDescription());
+
+            if (killInformationMapper.insert(killInformation) <= 0)
+                return ResultUtils.error(new ResultMessage(500, "KillInformation insert error"));
+            Date begin = killInformation.getBeginTime();
+            Date end = killInformation.getEndTime();
+            Long createUrlTimes = begin.getTime() - System.currentTimeMillis() - createUrl;
+            Long endTimes = end.getTime() - System.currentTimeMillis();
+            stringStringRedisTemplate.opsForSet().add("secondKills", killInformation.getId());
+            stringStringRedisTemplate.opsForValue()
+                    .set(killInformation.getId() + "noCreateUrlFlag", killInformation.getId() + "", createUrlTimes, TimeUnit.MILLISECONDS);
+            stringStringRedisTemplate.opsForValue()
+                    .set(killInformation.getId() + "noKillFlag", killInformation.getId() + "", createUrlTimes + createUrl, TimeUnit.MILLISECONDS);
+            stringStringRedisTemplate.opsForValue()
+                    .set(killInformation.getId() + "noEndKillFlag", killInformation.getId() + "", endTimes, TimeUnit.MILLISECONDS);
+            return ResultUtils.success(new ResultMessage(200, "Add Second Kill Successfully"),null);
         }
-        RuleInformation ruleInformation = new RuleInformation();
-        KillInformation killInformation = new KillInformation();
-
-        killInformation.setProductId(killImformationDTO.getProductId());
-        killInformation.setProductNum(killImformationDTO.getProductNum());
-        killInformation.setSurplusNum(killImformationDTO.getProductNum());
-        killInformation.setBuyMaximum(killImformationDTO.getBuyMaximum());
-        killInformation.setBeginTime(killImformationDTO.getBeginTime());
-        killInformation.setEndTime(killImformationDTO.getEndTime());
-        killInformation.setState("未开始");
-        killInformation.setRuleId(ruleInformation.getId());
-        killInformation.setSponsorId(killImformationDTO.getSponsorId());
-        killInformation.setDescription(killImformationDTO.getDescription());
-
-        if (killInformationMapper.insert(killInformation) <= 0)
-            return ResultUtils.error(new ResultMessage(500, "KillInformation insert error"));
-        Date begin = killInformation.getBeginTime();
-        Date end = killInformation.getEndTime();
-        Long createUrlTimes = begin.getTime() - System.currentTimeMillis() - createUrl;
-        Long endTimes = end.getTime() - System.currentTimeMillis();
-        redisTemplate.opsForSet().add("secondKills", killInformation.getId());
-        redisTemplate.opsForValue()
-                .set(killInformation.getId() + "noCreateUrlFlag", killInformation.getId(), createUrlTimes, TimeUnit.MILLISECONDS);
-        redisTemplate.opsForValue()
-                .set(killInformation.getId() + "noKillFlag", killInformation.getId(), createUrlTimes + createUrl, TimeUnit.MILLISECONDS);
-        redisTemplate.opsForValue()
-                .set(killInformation.getId() + "noEndKillFlag", killInformation.getId(), endTimes, TimeUnit.MILLISECONDS);
-        return ResultUtils.success(new ResultMessage(200, "Add Second Kill Successfully"),null);
     }
 }
