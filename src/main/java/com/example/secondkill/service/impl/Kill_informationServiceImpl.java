@@ -139,7 +139,7 @@ public class Kill_informationServiceImpl extends ServiceImpl<Kill_informationMap
         Date end = killInformation.getEndTime();
         Long createUrlTimes = begin.getTime() - System.currentTimeMillis() - createUrl;
         Long endTimes = end.getTime() - System.currentTimeMillis();
-        redisTemplate.opsForSet().add("sencondKills", killInformation.getId());
+        redisTemplate.opsForSet().add("secondKills", killInformation.getId());
         redisTemplate.opsForValue()
                 .set(killInformation.getId() + "noCreateUrlFlag", killInformation.getId(), createUrlTimes, TimeUnit.MILLISECONDS);
         redisTemplate.opsForValue()
