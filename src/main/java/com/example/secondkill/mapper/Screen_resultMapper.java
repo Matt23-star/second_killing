@@ -18,5 +18,7 @@ import java.util.List;
 
 @Component
 public interface Screen_resultMapper extends BaseMapper<ScreenResult> {
-    List<ScreenResult> getByUserId(@Param("userId") String userId);
+    List<ScreenResult> getByUserId(@Param("userId") String userId,
+                                   @Param("from") Integer from,
+                                   @Param("num") Integer to);
 }

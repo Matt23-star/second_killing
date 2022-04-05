@@ -60,8 +60,8 @@ public class KillInformationController {
 
     @GetMapping("/getAvailableKill/{userId}/{from}/{num}")
     public Result<List<KillInformation>> getAvailableKill(@PathVariable("userId") String userId,
-                                                          @PathVariable("from") String from,
-                                                          @PathVariable("num") String num){
+                                                          @PathVariable("from") Integer from,
+                                                          @PathVariable("num") Integer num){
         return kill_informationService.getAvailableKill(userId, from, num);
     }
 

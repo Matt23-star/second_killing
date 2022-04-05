@@ -21,5 +21,5 @@ public interface IKill_informationService extends IService<KillInformation> {
 
     Result<String> getRandomUrl(String userId, String killInformationId);
 
-    Result<List<KillInformation>> getAvailableKill(String userId, String from, String num);
+    Result<List<KillInformation>> getAvailableKill(String userId, Integer from, Integer num);
 }

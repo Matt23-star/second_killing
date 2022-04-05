@@ -104,9 +104,9 @@ public class Kill_informationServiceImpl extends ServiceImpl<Kill_informationMap
     }
 
     @Override
-    public Result<List<KillInformation>> getAvailableKill(String userId, String from, String num) {
+    public Result<List<KillInformation>> getAvailableKill(String userId, Integer from, Integer num) {
         LinkedList<KillInformation> results = new LinkedList<>();
-        List<ScreenResult> srs = srMapper.getByUserId(userId);
+        List<ScreenResult> srs = srMapper.getByUserId(userId, from, num);
         for (ScreenResult sr : srs) {
             results.add(killInformationMapper.selectById(sr.getKillInfoId()));
         }
