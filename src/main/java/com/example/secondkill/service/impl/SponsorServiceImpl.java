@@ -55,6 +55,7 @@ public class SponsorServiceImpl extends ServiceImpl<SponsorMapper, Sponsor> impl
 
     //全局模糊查询
     public List<KillInformation> universalKillSelect(String colName, String value, String orderBy, String aOrD, int from, int limit){
+        if (value == null || value.equals("*")) value = "";
         final List<KillInformation> killInformations
                 = kill_informationMapper.universalKillSelect(colName, value, orderBy, aOrD, from, limit);
         return killInformations;

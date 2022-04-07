@@ -72,6 +72,7 @@ public class SponsorController {
                                                   @PathVariable("aOrD") String aOrD,
                                                   @PathVariable("from") Integer from,
                                                   @PathVariable("num") Integer num){
+        if (value == null || value.equals("*")) value = "";
         List<KillInformation> killInformations
                 = sponsorService.universalKillSelect(colName, value, orderBy, aOrD, from, num);
         return ResultUtils.success(killInformations);

@@ -64,6 +64,7 @@ public class Product_informationServiceImpl extends ServiceImpl<Product_informat
 
     @Override
     public Result selectProductList(String colName, String value, String orderBy, String aOrD, int from, int limit) {
+        if (value == null || value.equals("*")) value = "";
         final List<ProductInformation> productInformationList
                 = productInformationMapper.universalProductSelect(colName, value, orderBy, aOrD, from, limit);
         return ResultUtils.success(new ResultMessage(200,"查询产品成功"),productInformationList);
