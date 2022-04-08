@@ -7,7 +7,9 @@ import com.example.secondkill.entity.pojo.KillInformation;
 import com.example.secondkill.entity.pojo.RuleInformation;
 import com.example.secondkill.entity.pojo.ScreenResult;
 import com.example.secondkill.mapper.Kill_informationMapper;
+import com.example.secondkill.mapper.Product_informationMapper;
 import com.example.secondkill.mapper.Screen_resultMapper;
+import com.example.secondkill.mapper.SponsorMapper;
 import com.example.secondkill.service.IKill_informationService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.secondkill.utils.ResultUtils;
@@ -90,6 +92,12 @@ public class Kill_informationServiceImpl extends ServiceImpl<Kill_informationMap
     @Autowired
     private RedisTemplate<String, String> stringStringRedisTemplate;
 
+    @Autowired
+    private Product_informationMapper productInformationMapper;
+
+    @Autowired
+    private SponsorMapper sponsorMapper;
+
     private static final Long createUrl = 5000L;
 
     public Result getRandomUrl(String userId, String killInformationId) {
@@ -108,7 +116,10 @@ public class Kill_informationServiceImpl extends ServiceImpl<Kill_informationMap
         LinkedList<KillInformation> results = new LinkedList<>();
         List<ScreenResult> srs = srMapper.getByUserId(userId, from, num);
         for (ScreenResult sr : srs) {
-            results.add(killInformationMapper.selectById(sr.getKillInfoId()));
+            KillInformation killInformation = killInformationMapper.selectById(sr.getKillInfoId());
+            killInformation.setProduct(productInformationMapper.selectById(killInformation.getProductId()));
+            killInformation.setSponsor(sponsorMapper.selectById(killInformation.getSponsorId()));
+            results.add(killInformation);
         }
         return ResultUtils.success(new ResultMessage(199, "可用秒杀列表返回成功"), results);
     }

@@ -9,6 +9,7 @@ import com.example.secondkill.entity.pojo.ProductInformation;
 import com.example.secondkill.entity.pojo.Sponsor;
 import com.example.secondkill.entity.pojo.User;
 import com.example.secondkill.mapper.Kill_informationMapper;
+import com.example.secondkill.mapper.Product_informationMapper;
 import com.example.secondkill.mapper.SponsorMapper;
 import com.example.secondkill.mapper.UserMapper;
 import com.example.secondkill.service.ISponsorService;
@@ -47,6 +48,9 @@ public class SponsorServiceImpl extends ServiceImpl<SponsorMapper, Sponsor> impl
     @Autowired
     private Kill_informationMapper kill_informationMapper;
 
+    @Autowired
+    private Product_informationMapper productInformationMapper;
+
     @Override
     public void addSponsor(Sponsor sponsor) {
         sponsorMapper.insert(sponsor);
@@ -58,12 +62,21 @@ public class SponsorServiceImpl extends ServiceImpl<SponsorMapper, Sponsor> impl
         if (value == null || value.equals("*")) value = "";
         final List<KillInformation> killInformations
                 = kill_informationMapper.universalKillSelect(colName, value, orderBy, aOrD, from, limit);
+        int size = killInformations.size();
+        for (int i = 0; i < size; i++) {
+            KillInformation killInformation = killInformations.get(i);
+            killInformation.setProduct(productInformationMapper.selectById(killInformation.getProductId()));
+            killInformation.setSponsor(sponsorMapper.selectById(killInformation.getSponsorId()));
+        }
         return killInformations;
     }
 
     @Override
     public KillInformation getKillDetails(String killId) {
-        return kill_informationMapper.selectById(killId);
+        KillInformation killInformation = kill_informationMapper.selectById(killId);
+        killInformation.setProduct(productInformationMapper.selectById(killInformation.getProductId()));
+        killInformation.setSponsor(sponsorMapper.selectById(killInformation.getSponsorId()));
+        return killInformation;
     }
 
     @Override
@@ -86,7 +99,14 @@ public class SponsorServiceImpl extends ServiceImpl<SponsorMapper, Sponsor> impl
 
     @Override
     public List<KillInformation> getAllKillWithLimit(Integer from, Integer num) {
-        return kill_informationMapper.getAllKillWithLimit(from, num);
+        List<KillInformation> kills = kill_informationMapper.getAllKillWithLimit(from, num);
+        int size = kills.size();
+        for (int i = 0; i < size; i++) {
+            KillInformation killInformation = kills.get(i);
+            killInformation.setProduct(productInformationMapper.selectById(killInformation.getProductId()));
+            killInformation.setSponsor(sponsorMapper.selectById(killInformation.getSponsorId()));
+        }
+        return kills;
     }
 
     private static final long EXPIRE_TIME=1*24*60*1000;

@@ -1,5 +1,6 @@
 package com.example.secondkill.entity.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -10,7 +11,7 @@ import java.util.UUID;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author Matt
@@ -41,5 +42,11 @@ public class KillInformation implements Serializable {
     private Date beginTime;
 
     private Date endTime;
+
+    @TableField(exist = false)
+    private ProductInformation product;
+
+    @TableField(exist = false)
+    private Sponsor sponsor;
 
 }
