@@ -5,11 +5,7 @@ import com.example.secondkill.entity.Result;
 import com.example.secondkill.service.IOrder_informationService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -32,5 +28,9 @@ public class OrderInformationController {
         return orderService.pay(killId, userId);
     }
 
+    @GetMapping("orders/{userId}")
+    public Result getOrders(@PathVariable("userId") String userId){
+        return orderService.getOrdersByUserId(userId);
+    }
 }
 

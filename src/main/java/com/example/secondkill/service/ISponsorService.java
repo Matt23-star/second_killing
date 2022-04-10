@@ -23,7 +23,7 @@ import java.util.List;
 public interface ISponsorService extends IService<Sponsor> {
     void addSponsor(Sponsor sponsor);
     List<KillInformation> universalKillSelect(String colName, String value, String orderBy, String aOrD, int from, int limit);
-    KillInformation getKillDetails(String killId);
+    Result getKillDetails(String killId);
     Result updateKillInfo (KillInformation killInformation);
     Result deleteKillInfo(String killId);
     List<KillInformation> getAllKillWithLimit(Integer from, Integer num);

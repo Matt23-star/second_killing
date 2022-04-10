@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.example.secondkill.entity.Result;
 import com.example.secondkill.entity.ResultMessage;
 import com.example.secondkill.entity.dto.KillImformationDTO;
+import com.example.secondkill.entity.dto.KillImformationDetailsDTO;
 import com.example.secondkill.entity.pojo.KillInformation;
 import com.example.secondkill.entity.pojo.ProductInformation;
 import com.example.secondkill.entity.pojo.Sponsor;
@@ -65,18 +66,24 @@ public class SponsorServiceImpl extends ServiceImpl<SponsorMapper, Sponsor> impl
         int size = killInformations.size();
         for (int i = 0; i < size; i++) {
             KillInformation killInformation = killInformations.get(i);
-            killInformation.setProduct(productInformationMapper.selectById(killInformation.getProductId()));
-            killInformation.setSponsor(sponsorMapper.selectById(killInformation.getSponsorId()));
         }
         return killInformations;
     }
 
     @Override
-    public KillInformation getKillDetails(String killId) {
+    public Result getKillDetails(String killId) {
         KillInformation killInformation = kill_informationMapper.selectById(killId);
-        killInformation.setProduct(productInformationMapper.selectById(killInformation.getProductId()));
-        killInformation.setSponsor(sponsorMapper.selectById(killInformation.getSponsorId()));
-        return killInformation;
+        KillImformationDetailsDTO killImformationDetailsDTO = new KillImformationDetailsDTO();
+        killImformationDetailsDTO.setId(killInformation.getId());
+        killImformationDetailsDTO.setSurplusNum(killInformation.getProductNum());
+        killImformationDetailsDTO.setProductNum(killInformation.getProductNum());
+        killImformationDetailsDTO.setBuyMaximum(killInformation.getBuyMaximum());
+        killImformationDetailsDTO.setBeginTime(killInformation.getBeginTime());
+        killImformationDetailsDTO.setEndTime(killInformation.getEndTime());
+        killImformationDetailsDTO.setDescription(killInformation.getDescription());
+        killImformationDetailsDTO.setSponsor(sponsorMapper.selectById(killInformation.getSponsorId()));
+        killImformationDetailsDTO.setProductInformation(productInformationMapper.selectById(killInformation.getProductId()));
+        return ResultUtils.success(killImformationDetailsDTO);
     }
 
     @Override
@@ -103,8 +110,6 @@ public class SponsorServiceImpl extends ServiceImpl<SponsorMapper, Sponsor> impl
         int size = kills.size();
         for (int i = 0; i < size; i++) {
             KillInformation killInformation = kills.get(i);
-            killInformation.setProduct(productInformationMapper.selectById(killInformation.getProductId()));
-            killInformation.setSponsor(sponsorMapper.selectById(killInformation.getSponsorId()));
         }
         return kills;
     }

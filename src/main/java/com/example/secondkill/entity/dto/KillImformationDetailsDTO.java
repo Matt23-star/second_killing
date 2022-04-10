@@ -8,18 +8,18 @@ import java.util.Date;
 
 /**
  * @author: Matt
- * @date: 2022/3/23/10:44
+ * @date: 2022/4/8/21:21
  * @description:
  */
 
 @Data
-public class KillImformationDTO {
+public class KillImformationDetailsDTO {
 
-    private String productId;
-
-    private String sponsorId;
+    private String id;
 
     private Integer productNum;
+
+    private Integer surplusNum;
 
     private String description;
 
@@ -28,5 +28,10 @@ public class KillImformationDTO {
     private Date beginTime;
 
     private Date endTime;
+
+    private Sponsor sponsor;
+
+    private ProductInformation productInformation;
+
 
 }

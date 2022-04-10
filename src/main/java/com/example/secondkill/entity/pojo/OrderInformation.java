@@ -5,6 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -28,7 +29,7 @@ public class OrderInformation implements Serializable {
 
     private Integer buyNumber;
 
-    private LocalDateTime time;
+    private Date time;
 
     private BigDecimal totalPrice;
 

@@ -1,7 +1,9 @@
 package com.example.secondkill.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.secondkill.entity.Result;
 import com.example.secondkill.entity.ResultMessage;
+import com.example.secondkill.entity.dto.OrderDTO;
 import com.example.secondkill.entity.pojo.*;
 import com.example.secondkill.mapper.*;
 import com.example.secondkill.service.IOrder_informationService;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -99,5 +103,26 @@ public class Order_informationServiceImpl extends ServiceImpl<Order_informationM
                 }
             }
         }
+    }
+
+    @Override
+    public Result getOrdersByUserId(String userId) {
+        QueryWrapper<OrderInformation> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id",userId);
+        List<OrderInformation> orderInformationList = orderMapper.selectList(queryWrapper);
+        List<OrderDTO> orderDTOList = new ArrayList<>();
+        for (OrderInformation orderInformation : orderInformationList) {
+            OrderDTO orderDTO = new OrderDTO();
+            orderDTO.setTotalPrice(orderInformation.getTotalPrice());
+            orderDTO.setUserId(orderInformation.getUserId());
+            orderDTO.setBeginTime(killMapper.selectById(orderInformation.getKillInformationId()).getBeginTime());
+            orderDTO.setKillInformationId(orderInformation.getKillInformationId());
+            orderDTO.setBuyNumber(orderInformation.getBuyNumber());
+            orderDTO.setEndTime(killMapper.selectById(orderInformation.getKillInformationId()).getEndTime());
+            orderDTO.setTime(orderInformation.getTime());
+            orderDTO.setState(orderInformation.getState());
+            orderDTOList.add(orderDTO);
+        }
+        return ResultUtils.success(orderDTOList);
     }
 }

@@ -52,10 +52,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public Result register(UserDTO userDTO) {
         if(userDTO==null)
             return ResultUtils.error(new ResultMessage(500, "表单数据为空"));
-        if(redisTemplate.opsForValue().get(userDTO)==null){
+        if(redisTemplate.opsForValue().get(userDTO.getEmail()+"checkCode")==null){
             return ResultUtils.error(new ResultMessage(500, "验证码已过期"));
         }
-        if(!redisTemplate.opsForValue().get(userDTO).equals(userDTO.getCheckCode())){
+        if(!redisTemplate.opsForValue().get(userDTO.getEmail()+"checkCode").equals(userDTO.getCheckCode())){
             return ResultUtils.error(new ResultMessage(500, "验证码错误"));
         }
         User user = new User();
@@ -133,6 +133,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public Result selectUserList(String colName, String value, String orderBy, String aOrD, int from, int limit) {
+        if (value == null || value.equals("*")) value = "";
         List<User> users = userMapper.universalUserSelect(colName, value, orderBy, aOrD, from, limit);
         return ResultUtils.success(users);
     }

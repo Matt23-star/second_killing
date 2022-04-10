@@ -43,10 +43,5 @@ public class KillInformation implements Serializable {
 
     private Date endTime;
 
-    @TableField(exist = false)
-    private ProductInformation product;
-
-    @TableField(exist = false)
-    private Sponsor sponsor;
 
 }

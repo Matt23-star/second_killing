@@ -14,4 +14,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IOrder_informationService extends IService<OrderInformation> {
     Result pay(String killId, String userId);
+
+    Result getOrdersByUserId(String userId);
 }

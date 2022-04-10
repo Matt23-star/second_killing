@@ -4,6 +4,7 @@ package com.example.secondkill.controller;
 import com.example.secondkill.entity.Result;
 import com.example.secondkill.entity.ResultMessage;
 import com.example.secondkill.entity.dto.KillImformationDTO;
+import com.example.secondkill.entity.dto.KillImformationDetailsDTO;
 import com.example.secondkill.entity.pojo.KillInformation;
 import com.example.secondkill.entity.pojo.ProductInformation;
 import com.example.secondkill.entity.pojo.User;
@@ -89,11 +90,11 @@ public class SponsorController {
 
     // 秒杀活动详情接口
     @GetMapping("/getKillDetails/{killId}")
-    public Result<KillInformation> getKillDetails(@PathVariable String killId) {
-        KillInformation killInformation = sponsorService.getKillDetails(killId);
-        if (killInformation == null) return ResultUtils.error
+    public Result getKillDetails(@PathVariable String killId) {
+        KillImformationDetailsDTO killImformationDetailsDTO =(KillImformationDetailsDTO) sponsorService.getKillDetails(killId).getData();
+        if (killImformationDetailsDTO == null) return ResultUtils.error
                 (new ResultMessage(410, "Second Kill Not Exists"));
-        else return ResultUtils.success(killInformation);
+        else return ResultUtils.success(killImformationDetailsDTO);
     }
 
     // 秒杀活动修改

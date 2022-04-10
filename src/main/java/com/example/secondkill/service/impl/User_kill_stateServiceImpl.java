@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -86,7 +87,7 @@ public class User_kill_stateServiceImpl extends ServiceImpl<User_kill_stateMappe
                                 orderInformation.setUserId(userKillState.getUserId());
                                 orderInformation.setBuyNumber(buyNum);
                                 orderInformation.setTotalPrice(new BigDecimal(productInformation.getPrice().doubleValue() * buyNum));
-                                orderInformation.setTime(LocalDateTime.now());
+                                orderInformation.setTime(new Date());
                                 orderInformation.setState(userKillState.getState());
 
                                 orderMapper.insert(orderInformation);

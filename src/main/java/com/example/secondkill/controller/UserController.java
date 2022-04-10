@@ -5,7 +5,7 @@ import com.example.secondkill.entity.Result;
 import com.example.secondkill.entity.pojo.User;
 import com.example.secondkill.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import com.example.secondkill.entity.Result;
 import com.example.secondkill.entity.dto.UserDTO;
 import com.example.secondkill.service.IUserService;
@@ -15,10 +15,6 @@ import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.ReactiveSubscription;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,7 +49,7 @@ public class UserController {
             @ApiImplicitParam(name = "password", value = "用户密码", dataType = "Date", paramType = "query", required = true),
             @ApiImplicitParam(name = "checkCode", value = "验证码", dataType = "Date", paramType = "query", required = true)
     })
-    public Result register(UserDTO userDTO){
+    public Result register(@RequestBody  UserDTO userDTO){
         return userService.register(userDTO);
     }
 

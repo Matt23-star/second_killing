@@ -6,6 +6,7 @@ import com.example.secondkill.entity.pojo.KillInformation;
 import com.example.secondkill.entity.pojo.RuleInformation;
 import com.example.secondkill.entity.pojo.ScreenResult;
 import com.example.secondkill.entity.pojo.User;
+import com.example.secondkill.mapper.Kill_informationMapper;
 import com.example.secondkill.mapper.Screen_resultMapper;
 import com.example.secondkill.mapper.UserMapper;
 import com.example.secondkill.service.IKill_informationService;
@@ -43,11 +44,14 @@ public class Screen_resultServiceImpl extends ServiceImpl<Screen_resultMapper, S
     private ISponsorService sponsorService;
 
     @Autowired
+    private Kill_informationMapper killInformationMapper;
+
+    @Autowired
     private Rule_informationServiceImpl ruleInformationService;
 
     @Override
     public Result screenUsers(String killId) {
-        KillInformation killInformation = sponsorService.getKillDetails(killId);
+        KillInformation killInformation = killInformationMapper.selectById(killId);
         RuleInformation ruleInformation = ruleInformationService.getRule(killInformation.getRuleId()).getData();
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         List<User> userList = userMapper.selectList(queryWrapper);

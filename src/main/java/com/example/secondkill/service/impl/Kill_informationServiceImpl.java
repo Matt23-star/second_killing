@@ -117,8 +117,6 @@ public class Kill_informationServiceImpl extends ServiceImpl<Kill_informationMap
         List<ScreenResult> srs = srMapper.getByUserId(userId, from, num);
         for (ScreenResult sr : srs) {
             KillInformation killInformation = killInformationMapper.selectById(sr.getKillInfoId());
-            killInformation.setProduct(productInformationMapper.selectById(killInformation.getProductId()));
-            killInformation.setSponsor(sponsorMapper.selectById(killInformation.getSponsorId()));
             results.add(killInformation);
         }
         return ResultUtils.success(new ResultMessage(199, "可用秒杀列表返回成功"), results);
@@ -160,7 +158,7 @@ public class Kill_informationServiceImpl extends ServiceImpl<Kill_informationMap
                     .set(killInformation.getId() + "noKillFlag", killInformation.getId() + "", createUrlTimes + createUrl, TimeUnit.MILLISECONDS);
             stringStringRedisTemplate.opsForValue()
                     .set(killInformation.getId() + "noEndKillFlag", killInformation.getId() + "", endTimes, TimeUnit.MILLISECONDS);
-            return ResultUtils.success(new ResultMessage(200, "Add Second Kill Successfully"),null);
+            return ResultUtils.success(new ResultMessage(200, "Add Second Kill Successfully"),killInformation);
         }
     }
 }
