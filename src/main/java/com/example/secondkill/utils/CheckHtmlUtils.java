@@ -24,8 +24,10 @@ import java.io.InputStreamReader;
 public class CheckHtmlUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(CheckHtmlUtils.class);
+
     @Autowired
-    private static SponsorServiceImpl sponsorService;
+    private SponsorServiceImpl sponsorService;
+
     public static String setCodeEmailHtml(String title, String userName, String type, String captcha) {
         String emailTemplet = System.getProperty("email_template");
         emailTemplet = emailTemplet.replace("$(title)", title);
@@ -36,18 +38,19 @@ public class CheckHtmlUtils {
         return emailTemplet;
     }
 
-    public static String setSecondKillHtml(String killId){
-        KillImformationDetailsDTO killImformationDetailsDTO = (KillImformationDetailsDTO) sponsorService.getKillDetails(killId).getData();
-        String secondKillTemplet = System.getProperty("XXX");
+    public static String setSecondKillHtml(KillImformationDetailsDTO killImformationDetailsDTO, String name){
+        String secondKillTemplet = System.getProperty("postman");
+        secondKillTemplet= secondKillTemplet.replace("$(user)",name);
         secondKillTemplet= secondKillTemplet.replace("$(killName)","银行存款产品秒杀活动");
         secondKillTemplet = secondKillTemplet.replace("$(product)",killImformationDetailsDTO.getProductInformation().getName());
         secondKillTemplet = secondKillTemplet.replace("$(saleNumber)",killImformationDetailsDTO.getProductNum().toString());
-        secondKillTemplet = secondKillTemplet.replace("killBeginNum",DateUtils.dateFormat(killImformationDetailsDTO.getBeginTime()));
-        secondKillTemplet = secondKillTemplet.replace("killEndTime",DateUtils.dateFormat(killImformationDetailsDTO.getEndTime()));
-        secondKillTemplet = secondKillTemplet.replace("killDescription",killImformationDetailsDTO.getDescription());
-        secondKillTemplet = secondKillTemplet.replace("Sponsor", killImformationDetailsDTO.getSponsor().getName());
-        secondKillTemplet = secondKillTemplet.replace("SponsorDescription",killImformationDetailsDTO.getSponsor().getDescription());
-        secondKillTemplet = secondKillTemplet.replace("url","ss" );
+        secondKillTemplet = secondKillTemplet.replace("$(killBeginTime)",DateUtils.dateFormat(killImformationDetailsDTO.getBeginTime()));
+        secondKillTemplet = secondKillTemplet.replace("$(killEndTime)",DateUtils.dateFormat(killImformationDetailsDTO.getEndTime()));
+        secondKillTemplet = secondKillTemplet.replace("$(killDescription)",killImformationDetailsDTO.getDescription());
+        secondKillTemplet = secondKillTemplet.replace("$(Sponsor)", killImformationDetailsDTO.getSponsor().getName());
+        secondKillTemplet = secondKillTemplet.replace("$(SponsorDescription)",killImformationDetailsDTO.getSponsor().getDescription());
+        secondKillTemplet = secondKillTemplet.replace("$(url)","ss" );
+        System.out.println("设置完成");
         return secondKillTemplet;
     }
 
@@ -89,7 +92,7 @@ public class CheckHtmlUtils {
         try {
             String encoding = "UTF-8";
 
-            ClassPathResource classPathResource = new ClassPathResource("templates/email_template.html");
+            ClassPathResource classPathResource = new ClassPathResource("templates/postman.html");
             InputStream resourceAsStream = classPathResource.getInputStream();
 //          考虑到编码格式
             InputStreamReader read = new InputStreamReader(
@@ -99,7 +102,7 @@ public class CheckHtmlUtils {
             while ((lineTxt = bufferedReader.readLine()) != null) {
                 sb.append(lineTxt);
             }
-            System.setProperty("email_template", sb.toString());
+            System.setProperty("postman", sb.toString());
             logger.info("注入文件:"+sb.toString());
             resourceAsStream.close();
             read.close();

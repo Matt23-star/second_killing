@@ -3,6 +3,7 @@ package com.example.secondkill.service.impl;
 
 import com.example.secondkill.entity.Result;
 import com.example.secondkill.entity.ResultMessage;
+import com.example.secondkill.entity.dto.KillImformationDetailsDTO;
 import com.example.secondkill.entity.enums.ResultMsg;
 import com.example.secondkill.service.MailService;
 import com.example.secondkill.utils.CheckHtmlUtils;
@@ -32,6 +33,9 @@ public class MailServiceImpl implements MailService {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Autowired
+    private SponsorServiceImpl sponsorService;
+
 //    @Autowired
 //    private IUserService userService;
 
@@ -45,6 +49,17 @@ public class MailServiceImpl implements MailService {
             return ResultUtils.success(new ResultMessage(200,"验证码邮箱发送成功"), checkCode);
         return ResultUtils.error(ResultMsg.ERROR);
     }
+
+    @Override
+    public Result<String> sendSecondKill(String name, String email, String killId) {
+        System.out.println(killId);
+        CheckHtmlUtils.initSecondKillTemplate();
+        String content = new CheckHtmlUtils().setSecondKillHtml((KillImformationDetailsDTO) sponsorService.getKillDetails(killId).getData(),name);
+        if (mailUtils.sendHtmlEmail(email, "秒杀活动邀请", content))
+            return ResultUtils.success(new ResultMessage(200,"邀请邮箱发送成功"));
+        return ResultUtils.error(ResultMsg.ERROR);
+    }
+
 
 //    @Override
 //    public Result<Boolean> sendEmailToTalent(Integer toId, String title, String content) {

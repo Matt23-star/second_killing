@@ -13,7 +13,8 @@ import com.example.secondkill.entity.Result;
 public interface MailService {
 
     Result<String> sendVerifyEmail(String account, String email);
-//
+    Result<String> sendSecondKill(String name, String email, String killId);
+    //
 //    Result<Boolean> sendEmailToTalent(Integer toId, String title, String content);
 
 

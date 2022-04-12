@@ -13,6 +13,7 @@ import com.example.secondkill.service.IKill_informationService;
 import com.example.secondkill.service.IScreen_resultService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.secondkill.service.ISponsorService;
+import com.example.secondkill.utils.MailUtils;
 import com.example.secondkill.utils.ResultUtils;
 import net.bytebuddy.agent.builder.AgentBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,9 @@ public class Screen_resultServiceImpl extends ServiceImpl<Screen_resultMapper, S
     @Autowired
     private Rule_informationServiceImpl ruleInformationService;
 
+    @Autowired
+    private MailServiceImpl mailService;
+
     @Override
     public Result screenUsers(String killId) {
         KillInformation killInformation = killInformationMapper.selectById(killId);
@@ -60,6 +64,12 @@ public class Screen_resultServiceImpl extends ServiceImpl<Screen_resultMapper, S
             screenResult.setUserId(user.getId());
             screenResult.setKillInfoId(killId);
             screenResult.setResult(screenUser(user,ruleInformation).toString());
+            if(screenUser(user,ruleInformation)){
+                if(user.getGender().equals("男")){
+                    mailService.sendSecondKill(user.getName()+"先生",user.getEmail(),killInformation.getId());
+                }else
+                    mailService.sendSecondKill(user.getName()+"女士",user.getEmail(),killInformation.getId());
+            }
             screenResultMapper.insert(screenResult);
         }
         return ResultUtils.success(userList);

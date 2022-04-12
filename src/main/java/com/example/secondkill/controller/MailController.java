@@ -36,4 +36,11 @@ public class MailController {
         return mailService.sendVerifyEmail(nickname, password);
     }
 
+    @PostMapping("/invite")
+    public Result<String> sendInvitation(@RequestParam("name") String name,
+                                         @RequestParam("email") String email,
+                                         @RequestParam("killId") String killId) {
+        return mailService.sendSecondKill(name, email, killId);
+    }
+
 }

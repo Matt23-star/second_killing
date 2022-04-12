@@ -1,5 +1,6 @@
 package com.example.secondkill.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.example.secondkill.entity.Result;
 import com.example.secondkill.entity.ResultMessage;
@@ -72,8 +73,10 @@ public class SponsorServiceImpl extends ServiceImpl<SponsorMapper, Sponsor> impl
 
     @Override
     public Result getKillDetails(String killId) {
-        KillInformation killInformation = kill_informationMapper.selectById(killId);
+        QueryWrapper<KillInformation> queryWrapper = new QueryWrapper<KillInformation>().eq("id",killId);
+        KillInformation killInformation = kill_informationMapper.selectOne(queryWrapper);
         KillImformationDetailsDTO killImformationDetailsDTO = new KillImformationDetailsDTO();
+        System.out.println(killInformation);
         killImformationDetailsDTO.setId(killInformation.getId());
         killImformationDetailsDTO.setSurplusNum(killInformation.getProductNum());
         killImformationDetailsDTO.setProductNum(killInformation.getProductNum());
@@ -83,6 +86,7 @@ public class SponsorServiceImpl extends ServiceImpl<SponsorMapper, Sponsor> impl
         killImformationDetailsDTO.setDescription(killInformation.getDescription());
         killImformationDetailsDTO.setSponsor(sponsorMapper.selectById(killInformation.getSponsorId()));
         killImformationDetailsDTO.setProductInformation(productInformationMapper.selectById(killInformation.getProductId()));
+        System.out.println(killImformationDetailsDTO);
         return ResultUtils.success(killImformationDetailsDTO);
     }
 
