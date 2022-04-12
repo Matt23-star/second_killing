@@ -15,7 +15,7 @@ spring:
   redis:
     host: 127.0.0.1
     port: 6379
-#    password: second-kill
+    password: second-kill
   #验证码发送邮箱配置
   mail:
     host: 123.126.97.3
