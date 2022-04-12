@@ -4,7 +4,6 @@ package com.example.secondkill.service.impl;
 import com.example.secondkill.entity.Result;
 import com.example.secondkill.entity.ResultMessage;
 import com.example.secondkill.entity.enums.ResultMsg;
-import com.example.secondkill.service.IUserService;
 import com.example.secondkill.service.MailService;
 import com.example.secondkill.utils.CheckHtmlUtils;
 import com.example.secondkill.utils.MailUtils;
@@ -40,7 +39,7 @@ public class MailServiceImpl implements MailService {
     public Result<String> sendVerifyEmail(String account, String email) {
         String checkCode = String.valueOf(new Random().nextInt(899999) + 100000);
         redisTemplate.opsForValue().set(email+"checkCode",checkCode,300000, TimeUnit.MILLISECONDS);
-        CheckHtmlUtils.initEmailTemplate();
+        CheckHtmlUtils.initCodeEmailTemplate();
         String content = CheckHtmlUtils.setCodeEmailHtml("秒杀系统验证码", account, "注册验证", checkCode);
         if (mailUtils.sendHtmlEmail(email, "秒杀系统验证码", content))
             return ResultUtils.success(new ResultMessage(200,"验证码邮箱发送成功"), checkCode);

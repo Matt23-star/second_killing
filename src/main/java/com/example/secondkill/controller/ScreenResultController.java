@@ -30,7 +30,8 @@ public class ScreenResultController {
     private Screen_resultServiceImpl screenResultService;
 
     @PostMapping("/invite")
-    public Result userLogin(@RequestParam("killId")String killId) {
+    public Result userLogin(@RequestParam("killId")String killId,
+                            @RequestParam("content" String content) {
         return screenResultService.screenUsers(killId);
     }
 
