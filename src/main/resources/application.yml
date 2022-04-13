@@ -40,6 +40,9 @@ mail:
   fromMail:
     addr: talent_management@163.com
 
+#项目图片文件资源保存的位置
+file-save-path: /usr/images/
+
 #应用服务 WEB 访问端口
 server:
   port: 8888
