@@ -8,14 +8,14 @@ spring:
     # 数据源名称
     name: second_killing
     # 数据库连接地址
-    url: jdbc:mysql://106.52.2.132:3306/second_killing?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF8
+    url: jdbc:mysql://172.31.32.233:3306/sxfcds2105453?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF8
     # 数据库用户名&密码：
-    username: root
-    password: 333333
+    username: sxfcds2105453
+    password: SX_fcds2105453
   redis:
-    host: 127.0.0.1
+    host: redis
     port: 6379
-    password: second-kill
+    password: sxfcds2105453
   #验证码发送邮箱配置
   mail:
     host: 123.126.97.3

@@ -7,6 +7,7 @@ import com.example.secondkill.mapper.*;
 import com.example.secondkill.utils.ResultUtils;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,9 +37,18 @@ public class HelloController {
     @Autowired
     private User_kill_stateMapper userKillStateMapper;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @GetMapping("/hello")
     public String getHello(){
         return "Hello";
+    }
+
+    @GetMapping("/redis")
+    public Result testRedis(){
+        redisTemplate.opsForValue().set("key","value");
+        return ResultUtils.success(redisTemplate.opsForValue().get("key"));
     }
 
     @GetMapping("/amount")
