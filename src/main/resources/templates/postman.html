@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitation</title>
+</head>
+<body>
+    <div class="detail">
+        <p>尊敬的$(user)</p>
+    </div>
+    <div class="title">
+        <p>秒杀活动更新啦!!!</p>
+    </div>
+    <div class="detail">
+
+        <p>活动名称：$(killName)</p>
+        <p>商品：$(product)</p>
+        <p>数量：$(saleNumber)</p>
+        <p>开始时间：$(killBeginTime)</p>
+        <p>结束时间：$(killEndTime)</p>
+        <p>活动详情：$(killDescription)</p>
+        <p>赞助商：$(Sponsor)</p>
+        <p>赞助商详情：$(SponsorDescription)</p>
+        <p>详情链接：$(url)</p>
+    </div>
+</body>
+<style>
+    body {
+        background-image: url('../../assets/poster.png');
+        background-repeat: no-repeat;
+        background-size: 100%;
+        color: white;
+    }
+    .title {
+        margin-left: 9%;
+        font-size: 60px;
+    }
+    .detail {
+        margin-left: 9%;
+        font-size: 20px;
+    }
+</style>
+</html>
