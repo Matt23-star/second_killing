@@ -1,6 +1,7 @@
 # 工程简介
 银行产品秒杀系统后端代码
 gitee仓库地址为：https://gitee.com/mattfh/second-killing.git
+github仓库地址为：https://github.com/Matt23-star/second_killing.git
 银行产品秒杀系统前端代码
 github仓库地址为：https://github.com/Nadia-Chen/banksystem_frontend.git
 
